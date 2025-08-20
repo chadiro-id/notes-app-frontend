@@ -92,6 +92,21 @@ class NotesService {
 
     return jsonHandler(response);
   }
+
+  async deleteNote(noteId) {
+    const endpoint = `/notes/${noteId}`;
+    const options = {
+      method: 'DELETE'
+    };
+
+    const [error, response] = await this._client.request(endpoint, options);
+
+    if (error) {
+      return [error, null];
+    }
+
+    return jsonHandler(response);
+  }
 }
 
 export default NotesService;
