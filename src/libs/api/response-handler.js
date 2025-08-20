@@ -14,12 +14,13 @@ const jsonHandler = async (response) => {
   try {
     const responseJson = await response.json();
     return [null, responseJson];
-  } catch (e) {
+  } catch (err) {
+    console.error(err);
     const error = new Error('Failed to parse JSON response.');
     return [error, null];
   }
-}
+};
 
 export {
   jsonHandler
-}
+};

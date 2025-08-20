@@ -16,7 +16,7 @@ function createApiClient(config) {
       console.error(`API request to ${endpoint} failed:`, error);
       return [error, null];
     }
-  }
+  };
 
   return {
     request
@@ -25,4 +25,4 @@ function createApiClient(config) {
 
 export {
   createApiClient
-}
+};
