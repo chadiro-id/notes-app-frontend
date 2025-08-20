@@ -26,6 +26,30 @@ class NotesService {
 
     return jsonHandler(response);
   }
+
+  async getNotes() {
+    const endpoint = '/notes';
+
+    const [error, response] = await this._client.request(endpoint);
+
+    if (error) {
+      return [error, null];
+    }
+
+    return jsonHandler(response);
+  }
+
+  async getArchivedNotes() {
+    const endpoint = '/notes/archived';
+
+    const [error, response] = await this._client.request(endpoint);
+
+    if (error) {
+      return [error, null];
+    }
+
+    return jsonHandler(response);
+  }
 }
 
 export default NotesService;
