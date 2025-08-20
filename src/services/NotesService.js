@@ -50,6 +50,18 @@ class NotesService {
 
     return jsonHandler(response);
   }
+
+  async getNoteById(noteId) {
+    const endpoint = `/notes/${noteId}`;
+
+    const [error, response] = await this._client.request(endpoint);
+
+    if (error) {
+      return [error, null];
+    }
+
+    return jsonHandler(response);
+  }
 }
 
 export default NotesService;
