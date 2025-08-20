@@ -62,6 +62,36 @@ class NotesService {
 
     return jsonHandler(response);
   }
+
+  async archiveNote(noteId) {
+    const endpoint = `/notes/${noteId}/archive`;
+    const options = {
+      method: 'POST',
+    };
+
+    const [error, response] = await this._client.request(endpoint, options);
+
+    if (error) {
+      return [error, null];
+    }
+
+    return jsonHandler(response);
+  }
+
+  async unarchiveNote(noteId) {
+    const endpoint = `/notes/${noteId}/unarchive`;
+    const options = {
+      method: 'POST',
+    };
+
+    const [error, response] = await this._client.request(endpoint, options);
+
+    if (error) {
+      return [error, null];
+    }
+
+    return jsonHandler(response);
+  }
 }
 
 export default NotesService;
