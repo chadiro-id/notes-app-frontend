@@ -7,5 +7,5 @@ import daStyle from 'eslint-config-dicodingacademy';
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
-  { files: ["**/*.js"], extends: [daStyle] }
+  { files: ["**/*.js"], extends: [daStyle], rules: { "indent": ["error", 2, { "SwitchCase": 1 }] } }
 ]);
