@@ -6,6 +6,36 @@
   <title>Notes App</title>
 </head>
 <body>
-  Hello World!
+  <header>
+    <div class="appbar">
+      <h1 class="app-name">Notes App</h1>
+      <div class="options-menu">
+        <theme-switcher control-mode="attr" attr-name="data-theme"></theme-switcher>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="content">
+      <div class="action-panel">
+        <button-groups>
+          <button slot="btn-item" class="btn-item btn-outlined" type="button" value="all" selected>All</button>
+          <button slot="btn-item" class="btn-item btn-outlined" type="button" value="primary">Primary</button>
+          <button slot="btn-item" class="btn-item btn-outlined" type="button" value="archived">Archived</button>
+        </button-groups>
+        <button type="button" id="add-button" class="btn-filled">Add new</button>
+      </div>
+      <div class="notes">
+        <message-box type="info" hidden>
+          <p slot="message" class="mb-slot__message"></p>
+        </message-box>
+        <note-list></note-list>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p class="copyright">&copy; 2025 Dicoding Academy</p>
+  </footer>
 </body>
 </html>
