@@ -98,5 +98,33 @@
       </div>
     </div>
   </dialog>
+
+  <dialog id="note-details-modal" class="modal">
+    <div class="modal-box">
+      <header class="modal__header">
+        <div class="modal__title">Note Details</div>
+        <button type="button" class="modal__close-button" aria-label="Close note details modal" value="close" autofocus>
+          <close-icon></close-icon>
+        </button>
+      </header>
+      <div class="modal__content">
+        <div class="note-details">
+          <h3 class="note-details__title">Note Title</h3>
+          <p class="note-details__created-at">Note Created At</p>
+          <p class="note-details__body">Note body</p>
+          <div class="note-details__actions">
+            <button type="button" class="note-details__archive-toggle btn-filled">
+              <archive-icon></archive-icon>
+              Archive
+            </button>
+            <button type="button" class="note-details__delete-button btn-filled">
+              <trash-icon></trash-icon>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
 </body>
 </html>
