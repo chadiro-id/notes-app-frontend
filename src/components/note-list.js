@@ -42,7 +42,7 @@ class NoteList extends HTMLElement {
     this._style.textContent = `
 .note-list__container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-auto-rows: 180px;
   grid-auto-flow: row dense;
   gap: ${this.gutter};
