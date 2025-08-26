@@ -51,10 +51,6 @@ class NoteItem extends HTMLElement {
   }
 
   set note(value) {
-    if (typeof value !== 'object') {
-      return;
-    }
-
     this._note = { ...value };
 
     if (this.isConnected) {
