@@ -13,54 +13,6 @@ class NoteItem extends HTMLElement {
   disconnectedCallback() {
   }
 
-  composeStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-:host {
-}
-
-.note-item__container {
-  position: relative;
-
-  min-height: 100%;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.note-item__title {
-  padding: 1rem;
-
-  font-weight: bold;
-}
-
-.note-item__body {
-  padding: 0.5rem 1rem;
-
-  font-size: 0.875em;
-}
-
-.note-item__actions {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: auto;
-
-  width: calc(100% - 2rem);
-
-  padding: 0.5rem 1rem;
-
-  font-size: 0.75em;
-  text-align: right;
-
-  color: var(--color-on-surface-variant);
-}
-    `;
-
-    this._shadow.appendChild(style);
-  }
-
   composeHTML() {
     const container = document.createElement('div');
     container.className = 'note-item__container';
