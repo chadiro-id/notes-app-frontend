@@ -1,4 +1,3 @@
-// import { debounce } from '../utils/util.js';
 
 class NoteItem extends HTMLElement {
   /**
@@ -18,12 +17,12 @@ class NoteItem extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
+    // this._shadow = this.attachShadow({ mode: 'open' });
     // this.handleResize = debounce(this.handleResize, 100).bind(this);
   }
 
   connectedCallback() {
-    this.composeStyles();
+    // this.composeStyles();
     this.composeHTML();
 
     // window.addEventListener('resize', this.handleResize);
@@ -89,15 +88,16 @@ class NoteItem extends HTMLElement {
     <div class="note-item__body"></div>
     <div class="note-item__actions">
       <button class="note-item__archive-toggle btn-outlined" aria-label="Archive note">
-        <archive-icon></archive-icon>
+        Archive
       </button>
       <button class="note-item__delete-button btn-outlined" aria-label="Delete note">
-        <trash-icon></trash-icon>
+        Delete
       </button>
     </div>
     `;
 
-    this._shadow.appendChild(container);
+    // this._shadow.appendChild(container);
+    this.appendChild(container);
 
     if (typeof this._note === 'object') {
       this.updateView();
@@ -105,13 +105,13 @@ class NoteItem extends HTMLElement {
   }
 
   updateView() {
-    const titleEl = this._shadow.querySelector('.note-item__title');
-    const bodyEl = this._shadow.querySelector('.note-item__body');
-    const archiveToggle = this._shadow.querySelector('.note-item__archive-toggle');
+    const titleEl = this.querySelector('.note-item__title');
+    const bodyEl = this.querySelector('.note-item__body');
+    const archiveToggle = this.querySelector('.note-item__archive-toggle');
 
     const { title, body, archived } = this._note;
 
-    const archiveIcon = archived ? '<archive-icon></archive-icon>' : '<archive-x-icon></archive-x-icon>';
+    const archiveIcon = archived ? 'Unarchive' : 'Archive';
 
     titleEl && (titleEl.textContent = title);
     bodyEl && (bodyEl.innerText = body);
