@@ -68,6 +68,7 @@ class NoteItem extends HTMLElement {
     this.dispatchEvent(new CustomEvent('clicked', {
       detail: {
         action,
+        data: this.note
       }
     }));
   }
