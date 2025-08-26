@@ -4,13 +4,18 @@ class NoteItem extends HTMLElement {
 
   constructor() {
     super();
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   connectedCallback() {
     this.composeHTML();
+
+    this.addEventListener('click', this.handleClick);
   }
 
   disconnectedCallback() {
+    this.removeEventListener('click', this.handleClick);
   }
 
   composeHTML() {
@@ -48,6 +53,23 @@ class NoteItem extends HTMLElement {
     titleEl && (titleEl.textContent = title);
     bodyEl && (bodyEl.innerText = body);
     archiveToggle && (archiveToggle.innerHTML = archiveIcon);
+  }
+
+  handleClick(evt) {
+    evt.stopPropagation();
+
+    let action = 'default';
+    if (evt.target.classList.contains('note-item__archive-toggle')) {
+      action = 'archive';
+    } else if (evt.target.classList.contains('note-item__delete-button')) {
+      action = 'delete';
+    }
+
+    this.dispatchEvent(new CustomEvent('clicked', {
+      detail: {
+        action,
+      }
+    }));
   }
 
   set note(value) {
