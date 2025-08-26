@@ -1,35 +1,16 @@
 
 class NoteItem extends HTMLElement {
-  /**
-   * @typedef {Object} Note
-   * @property {string} id
-   * @property {string} title
-   * @property {string} body
-   * @property {string} createdAt
-   * @property {boolean} archived
-   */
-
-  /**
-   * @type {Note}
-   */
   _note;
 
   constructor() {
     super();
-
-    // this._shadow = this.attachShadow({ mode: 'open' });
-    // this.handleResize = debounce(this.handleResize, 100).bind(this);
   }
 
   connectedCallback() {
-    // this.composeStyles();
     this.composeHTML();
-
-    // window.addEventListener('resize', this.handleResize);
   }
 
   disconnectedCallback() {
-    // window.removeEventListener('resize', this.handleResize);
   }
 
   composeStyles() {
@@ -96,7 +77,6 @@ class NoteItem extends HTMLElement {
     </div>
     `;
 
-    // this._shadow.appendChild(container);
     this.appendChild(container);
 
     if (typeof this._note === 'object') {
@@ -116,44 +96,7 @@ class NoteItem extends HTMLElement {
     titleEl && (titleEl.textContent = title);
     bodyEl && (bodyEl.innerText = body);
     archiveToggle && (archiveToggle.innerHTML = archiveIcon);
-
-    // this.measureAvailableSize();
   }
-
-  // measureAvailableSize() {
-  //   if (this.parentElement.lastElementChild === this) {
-  //     this.calculateColSpan();
-  //   }
-  //   this.calculateRowSpan();
-  // }
-
-  // calculateColSpan() {
-  //   this.style.gridColumnEnd = 'span 1';
-  //   const rect = this.getBoundingClientRect();
-  //   const parentRect = this.parentElement.getBoundingClientRect();
-
-  //   const spanNumb = Math.ceil((parentRect.right - rect.right) / rect.width);
-  //   this.style.gridColumnEnd = `span ${spanNumb}`;
-  // }
-
-  // calculateRowSpan() {
-  //   const selfRect = this.getBoundingClientRect();
-  //   const titleRect = this._shadow.querySelector('.note-item__title').getBoundingClientRect();
-  //   const bodyRect = this._shadow.querySelector('.note-item__body').getBoundingClientRect();
-  //   const contentHeight = titleRect.height + bodyRect.height;
-
-  //   if (contentHeight > 160) {
-  //     const spanNumb = Math.ceil((contentHeight - 160) / selfRect.height);
-  //     const resolvedSpan = Math.min(spanNumb, 3) + 1;
-  //     this.style.gridRowEnd = `span ${resolvedSpan}`;
-  //   } else {
-  //     this.style.gridRowEnd = 'span 1';
-  //   }
-  // }
-
-  // handleResize() {
-  //   this.measureAvailableSize();
-  // }
 
   set note(value) {
     if (typeof value !== 'object') {
