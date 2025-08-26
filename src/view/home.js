@@ -66,19 +66,24 @@ const home = () => {
   noteList.addEventListener('itemAdded', (evt) => {
     const { node } = evt.detail;
     console.log(`[On Item Added] node: ${node}`);
-    node.addEventListener('click', handleNoteItemClick);
+    node.addEventListener('clicked', handleNoteItemClick);
   });
 
   noteList.addEventListener('itemRemoved', (evt) => {
     const { node } = evt.detail;
     console.log(`[On Item Removed] node: ${node}`);
-    node.removeEventListener('click', handleNoteItemClick);
+    node.removeEventListener('clicked', handleNoteItemClick);
   });
 
   function handleNoteItemClick(evt) {
-    const noteItemEl = evt.target;
-    const note = noteItemEl.note;
-    noteDetailsModal.show(note);
+    const { action, data } = evt.detail;
+    if (action === 'archive') {
+      console.log('archive');
+    } else if (action === 'delete') {
+      console.log('delete');
+    } else {
+      noteDetailsModal.show(data);
+    }
   }
 
   function showMessageBox(type, msg, opener) {
