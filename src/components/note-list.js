@@ -109,15 +109,6 @@ class NoteList extends HTMLElement {
     this.innerHTML = '';
   }
 
-  handleItemClic(evt) {
-    evt.stopPropagation();
-    this.dispatchEvent(new CustomEvent('itemClick', {
-      detail: {
-        target: evt.target,
-      }
-    }));
-  }
-
   set gutter(value) {
     this._gutter = value;
   }
