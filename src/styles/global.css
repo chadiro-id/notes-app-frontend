@@ -145,15 +145,6 @@ input[type="submit"], button {
   }
 }
 
-.caret-down {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid var(--color-on-surface);
-  transition: transform 0.3s ease;
-}
-
 .appbar {
   max-width: 1024px;
   margin-inline: auto;
