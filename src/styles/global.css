@@ -200,14 +200,14 @@ input[type="submit"], button {
   box-shadow: 0 16px 8px -16px var(--color-shadow-variant);
 }
 
-.buttons-group {
+/* .buttons-group {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-}
+} */
 
-.buttons-group > button {
+/* .buttons-group > button {
   flex-shrink: 0;
   
   min-width: 60px;
@@ -223,12 +223,12 @@ input[type="submit"], button {
   &:hover {
     background-color: var(--color-tint);
   }
-}
+} */
 
-.buttons-group > button.active {
+/* .buttons-group > button.active {
   border-color: transparent;
   background-color: var(--color-tint);
-}
+} */
 
 .notes {
   padding-block: 1rem;
@@ -514,23 +514,23 @@ input[type="submit"], button {
   flex-grow: 1;
 }
 
-.search-info {
+/* .search-info {
   padding: 0.5rem 1rem;
-}
+} */
 
-.search-info--hidden {
+/* .search-info--hidden {
   display: none;
-}
+} */
 
-.search-info__query {
+/* .search-info__query {
   font-weight: bold;
   font-style: italic;
-}
+} */
 
-.search-info__query::before,
+/* .search-info__query::before,
 .search-info__query::after {
   content: '"';
-}
+} */
 
 .mb-slot__message {
   margin-block: 0;
