@@ -56,9 +56,7 @@ class ButtonGroups extends HTMLElement {
 }
     `;
 
-    this._shadow.innerHTML += `
-    <slot name="btn-item"></slot>
-    `;
+    this._shadow.innerHTML += '<slot name="item-button"></slot>';
 
     const itemButtons = this._shadow.querySelectorAll('::slotted(button)');
     itemButtons.forEach((item) => {
