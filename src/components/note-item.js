@@ -25,10 +25,10 @@ class NoteItem extends HTMLElement {
     <div class="note-item__title"></div>
     <div class="note-item__body"></div>
     <div class="note-item__actions">
-      <button class="note-item__archive-toggle btn-outlined" aria-label="Archive note">
+      <button class="btn-filled note-item__archive-toggle" aria-label="Archive note">
         Archive
       </button>
-      <button class="note-item__delete-button btn-outlined" aria-label="Delete note">
+      <button class="btn-filled note-item__delete-button" aria-label="Delete note">
         Delete
       </button>
     </div>
