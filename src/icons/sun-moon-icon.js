@@ -2,8 +2,8 @@ class SunMoonIcon extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._styles = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._styles = document.createElement("style");
     this.render();
   }
 
@@ -95,4 +95,4 @@ class SunMoonIcon extends HTMLElement {
   }
 }
 
-customElements.define('sun-moon-icon', SunMoonIcon);
+customElements.define("sun-moon-icon", SunMoonIcon);

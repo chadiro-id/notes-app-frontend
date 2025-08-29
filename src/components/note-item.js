@@ -1,4 +1,3 @@
-
 class NoteItem extends HTMLElement {
   _note;
 
@@ -11,16 +10,16 @@ class NoteItem extends HTMLElement {
   connectedCallback() {
     this.composeHTML();
 
-    this.addEventListener('click', this.handleClick);
+    this.addEventListener("click", this.handleClick);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('click', this.handleClick);
+    this.removeEventListener("click", this.handleClick);
   }
 
   composeHTML() {
-    const container = document.createElement('div');
-    container.className = 'note-item__container';
+    const container = document.createElement("div");
+    container.className = "note-item__container";
     container.innerHTML = `
     <div class="note-item__title"></div>
     <div class="note-item__body"></div>
@@ -36,19 +35,19 @@ class NoteItem extends HTMLElement {
 
     this.appendChild(container);
 
-    if (typeof this._note === 'object') {
+    if (typeof this._note === "object") {
       this.updateView();
     }
   }
 
   updateView() {
-    const titleEl = this.querySelector('.note-item__title');
-    const bodyEl = this.querySelector('.note-item__body');
-    const archiveToggle = this.querySelector('.note-item__archive-toggle');
+    const titleEl = this.querySelector(".note-item__title");
+    const bodyEl = this.querySelector(".note-item__body");
+    const archiveToggle = this.querySelector(".note-item__archive-toggle");
 
     const { title, body, archived } = this._note;
 
-    const archiveIcon = archived ? 'Unarchive' : 'Archive';
+    const archiveIcon = archived ? "Unarchive" : "Archive";
 
     titleEl && (titleEl.textContent = title);
     bodyEl && (bodyEl.innerText = body);
@@ -58,19 +57,21 @@ class NoteItem extends HTMLElement {
   handleClick(evt) {
     evt.stopPropagation();
 
-    let action = 'default';
-    if (evt.target.classList.contains('note-item__archive-toggle')) {
-      action = 'archive';
-    } else if (evt.target.classList.contains('note-item__delete-button')) {
-      action = 'delete';
+    let action = "default";
+    if (evt.target.classList.contains("note-item__archive-toggle")) {
+      action = "archive";
+    } else if (evt.target.classList.contains("note-item__delete-button")) {
+      action = "delete";
     }
 
-    this.dispatchEvent(new CustomEvent('clicked', {
-      detail: {
-        action,
-        data: this.note
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent("clicked", {
+        detail: {
+          action,
+          data: this.note,
+        },
+      }),
+    );
   }
 
   set note(value) {
@@ -84,7 +85,6 @@ class NoteItem extends HTMLElement {
   get note() {
     return this._note;
   }
-
 }
 
-customElements.define('note-item', NoteItem);
+customElements.define("note-item", NoteItem);

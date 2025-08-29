@@ -2,8 +2,8 @@ class SearchIcon extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._styles = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._styles = document.createElement("style");
     this.render();
   }
 
@@ -35,4 +35,4 @@ class SearchIcon extends HTMLElement {
   }
 }
 
-customElements.define('search-icon', SearchIcon);
+customElements.define("search-icon", SearchIcon);

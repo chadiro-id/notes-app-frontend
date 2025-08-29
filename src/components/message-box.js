@@ -1,19 +1,15 @@
 class MessageBox extends HTMLElement {
-
   _type;
   _hidden;
 
   _opener;
 
-  static observedAttributes = [
-    'type',
-    'hidden'
-  ];
+  static observedAttributes = ["type", "hidden"];
 
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
+    this._shadow = this.attachShadow({ mode: "closed" });
 
     this.composeStyle();
     this.composeHTML();
@@ -22,23 +18,27 @@ class MessageBox extends HTMLElement {
   }
 
   connectedCallback() {
-    this._shadow.querySelector('.message-box__hide-button').addEventListener('click', this.handleClick);
+    this._shadow
+      .querySelector(".message-box__hide-button")
+      .addEventListener("click", this.handleClick);
   }
 
   disconnectedCallback() {
-    this._shadow.querySelector('.message-box__hide-button').removeEventListener('click', this.handleClick);
+    this._shadow
+      .querySelector(".message-box__hide-button")
+      .removeEventListener("click", this.handleClick);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue) return;
 
-    if (name === 'type') {
+    if (name === "type") {
       // TODO
     }
   }
 
   composeStyle() {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
 :host {
   display: block;
@@ -130,8 +130,8 @@ class MessageBox extends HTMLElement {
   }
 
   composeHTML() {
-    const container = document.createElement('div');
-    container.className = 'message-box__container';
+    const container = document.createElement("div");
+    container.className = "message-box__container";
     container.innerHTML = `
       <div class="message-box__content">
         <slot name="message">Message...</slot>
@@ -152,17 +152,19 @@ class MessageBox extends HTMLElement {
 
   handleClick(evt) {
     evt.stopPropagation();
-    this.dispatchEvent(new CustomEvent('close', {
-      detail: {
-        opener: this.opener,
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent("close", {
+        detail: {
+          opener: this.opener,
+        },
+      }),
+    );
     this.hidden = true;
   }
 
   set type(value) {
     this._type = value;
-    this.setAttribute('type', value);
+    this.setAttribute("type", value);
   }
 
   get type() {
@@ -171,7 +173,7 @@ class MessageBox extends HTMLElement {
 
   set hidden(value) {
     this._hidden = value;
-    this.toggleAttribute('hidden', value);
+    this.toggleAttribute("hidden", value);
   }
 
   get hidden() {
@@ -185,7 +187,6 @@ class MessageBox extends HTMLElement {
   get opener() {
     return this._opener;
   }
-
 }
 
-customElements.define('message-box', MessageBox);
+customElements.define("message-box", MessageBox);

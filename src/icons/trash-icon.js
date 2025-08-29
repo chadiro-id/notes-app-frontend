@@ -2,8 +2,8 @@ class TrashIcon extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._styles = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._styles = document.createElement("style");
     this.render();
   }
 
@@ -35,4 +35,4 @@ class TrashIcon extends HTMLElement {
   }
 }
 
-customElements.define('trash-icon', TrashIcon);
+customElements.define("trash-icon", TrashIcon);

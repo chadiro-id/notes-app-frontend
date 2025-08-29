@@ -2,19 +2,17 @@ class TextField extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._styles = document.createElement('style');
-    this._contentContainer = document.createElement('div');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._styles = document.createElement("style");
+    this._contentContainer = document.createElement("div");
   }
 
   connectedCallback() {
-    const inputEl = this._shadow.querySelector('.text-field__input-text');
-    inputEl.addEventListener('reset');
+    const inputEl = this._shadow.querySelector(".text-field__input-text");
+    inputEl.addEventListener("reset");
   }
 
-  disconnectedCallback() {
-
-  }
+  disconnectedCallback() {}
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue) {
@@ -23,11 +21,11 @@ class TextField extends HTMLElement {
   }
 
   composeStyle() {
-    this._styles.textContent = '';
+    this._styles.textContent = "";
   }
 
   composeHTML() {
-    this._contentContainer.className = 'text-field__content-container';
+    this._contentContainer.className = "text-field__content-container";
     this._contentContainer.innerHTML = `
     <div class="text-field__input-container">
       <label for="" class="text-field__input-label"></label>
@@ -41,24 +39,24 @@ class TextField extends HTMLElement {
   }
 
   setCustomValidity(validationMessage) {
-    const el = this._shadow.querySelector('.text-field__input-text');
+    const el = this._shadow.querySelector(".text-field__input-text");
     el.setCustomValidity(validationMessage);
   }
 
   updateTextCounter() {
-    const el = this._shadow.querySelector('.text-field__text-counter');
-    el.textContent = '';
+    const el = this._shadow.querySelector(".text-field__text-counter");
+    el.textContent = "";
   }
 
   updateValidationMessage() {
-    const el = this._shadow.querySelector('.text-field__validation-message');
-    el.textContent = '';
+    const el = this._shadow.querySelector(".text-field__validation-message");
+    el.textContent = "";
   }
 
   get validity() {
-    const input = this._shadow.querySelector('.text-field__input-text');
+    const input = this._shadow.querySelector(".text-field__input-text");
     return input.validity;
   }
 }
 
-customElements.define('text-field', TextField);
+customElements.define("text-field", TextField);

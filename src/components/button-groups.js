@@ -1,20 +1,16 @@
 class ButtonGroups extends HTMLElement {
-
-  _selectionMode = 'single';
+  _selectionMode = "single";
   _selectedValues = [];
   _defaultValue;
   _value;
 
-  static observedAttributes = [
-    'selection-mode',
-    'value'
-  ];
+  static observedAttributes = ["selection-mode", "value"];
 
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._style = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._style = document.createElement("style");
 
     this._shadow.append(this._style);
 
@@ -23,11 +19,11 @@ class ButtonGroups extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.addEventListener('click', this.handleClick);
+    this.addEventListener("click", this.handleClick);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('click', this.handleClick);
+    this.removeEventListener("click", this.handleClick);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -35,11 +31,11 @@ class ButtonGroups extends HTMLElement {
       return;
     }
 
-    if (name === 'select-mode') {
+    if (name === "select-mode") {
       this.selectionMode = newValue;
     }
 
-    if (name === 'value') {
+    if (name === "value") {
       this._defaultValue = newValue;
     }
   }
@@ -58,18 +54,18 @@ class ButtonGroups extends HTMLElement {
 
     this._shadow.innerHTML += '<slot name="item"></slot>';
 
-    const itemButtons = this._shadow.querySelectorAll('::slotted(button)');
+    const itemButtons = this._shadow.querySelectorAll("::slotted(button)");
     itemButtons.forEach((item) => {
-      item.classList.toggle('button-groups__item', true);
+      item.classList.toggle("button-groups__item", true);
       const selected = this._defaultValue.includes(item.value);
-      item.toggleAttribute('selected', selected);
+      item.toggleAttribute("selected", selected);
     });
   }
 
   handleClick(evt) {
     evt.stopPropagation();
-    if (evt.target.classList.contains('button-groups__item')) {
-      if (this.selectionMode === 'single') {
+    if (evt.target.classList.contains("button-groups__item")) {
+      if (this.selectionMode === "single") {
         this._selectedValues.length = 0;
       }
 
@@ -78,20 +74,22 @@ class ButtonGroups extends HTMLElement {
       this._selectedValues.push(selectedValue);
       console.log(`[button groups] item click -> value: ${selectedValue}`);
 
-      this.dispatchEvent(new CustomEvent('select', {
-        detail: {
-          selectedValue,
-          values: this._selectedValues,
-        }
-      }));
+      this.dispatchEvent(
+        new CustomEvent("select", {
+          detail: {
+            selectedValue,
+            values: this._selectedValues,
+          },
+        }),
+      );
     }
   }
 
   set selectionMode(value) {
-    if (value === 'single' || value === 'multiple') {
+    if (value === "single" || value === "multiple") {
       this._selectionMode = value;
     } else {
-      this._selectionMode = 'single';
+      this._selectionMode = "single";
     }
   }
 
@@ -106,7 +104,6 @@ class ButtonGroups extends HTMLElement {
   get value() {
     return this._value;
   }
-
 }
 
-customElements.define('button-groups', ButtonGroups);
+customElements.define("button-groups", ButtonGroups);

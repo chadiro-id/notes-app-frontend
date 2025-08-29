@@ -19,10 +19,8 @@ function createApiClient(config) {
   };
 
   return {
-    request
+    request,
   };
 }
 
-export {
-  createApiClient
-};
+export { createApiClient };

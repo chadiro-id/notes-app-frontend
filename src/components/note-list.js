@@ -1,16 +1,14 @@
 class NoteList extends HTMLElement {
-  _gutter = '16px';
+  _gutter = "16px";
 
-  static observedAttributes = [
-    'gutter'
-  ];
+  static observedAttributes = ["gutter"];
 
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._style = document.createElement('style');
-    this._container = document.createElement('div');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._style = document.createElement("style");
+    this._container = document.createElement("div");
 
     this._shadow.append(this._style, this._container);
     this.updateStyle();
@@ -32,7 +30,7 @@ class NoteList extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue) return;
-    if (name === 'gutter') {
+    if (name === "gutter") {
       this.gutter = newValue;
     }
     this.updateStyle();
@@ -51,7 +49,7 @@ class NoteList extends HTMLElement {
   }
 
   composeHTML() {
-    this._container.className = 'note-list__container';
+    this._container.className = "note-list__container";
     this._container.innerHTML = `
 <slot name="item"></slot>
     `;
@@ -63,17 +61,23 @@ class NoteList extends HTMLElement {
 
     this._mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.type === 'childList') {
+        if (mutation.type === "childList") {
           // Ketika ada node yang ditambahkan
           mutation.addedNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('note-item')) {
+            if (
+              node.nodeType === Node.ELEMENT_NODE &&
+              node.classList.contains("note-item")
+            ) {
               // Asumsi item grid punya class 'grid-item'
               this.setupItem(node);
             }
           });
           // Ketika ada node yang dihapus
           mutation.removedNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('note-item')) {
+            if (
+              node.nodeType === Node.ELEMENT_NODE &&
+              node.classList.contains("note-item")
+            ) {
               this.cleanupItem(node);
             }
           });
@@ -90,23 +94,27 @@ class NoteList extends HTMLElement {
   }
 
   setupItem(node) {
-    this.dispatchEvent(new CustomEvent('itemAdded', {
-      detail: {
-        node,
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent("itemAdded", {
+        detail: {
+          node,
+        },
+      }),
+    );
   }
 
   cleanupItem(node) {
-    this.dispatchEvent(new CustomEvent('itemRemoved', {
-      detail: {
-        node,
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent("itemRemoved", {
+        detail: {
+          node,
+        },
+      }),
+    );
   }
 
   clearItems() {
-    this.innerHTML = '';
+    this.innerHTML = "";
   }
 
   set gutter(value) {
@@ -118,4 +126,4 @@ class NoteList extends HTMLElement {
   }
 }
 
-customElements.define('note-list', NoteList);
+customElements.define("note-list", NoteList);

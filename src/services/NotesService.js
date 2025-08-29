@@ -1,19 +1,19 @@
-import { createApiClient } from '../libs/api';
-import { jsonHandler } from '../libs/api/response-handler';
+import { createApiClient } from "../libs/api";
+import { jsonHandler } from "../libs/api/response-handler";
 
 class NotesService {
   constructor() {
     this._client = createApiClient({
-      baseUrl: 'https://notes-api.dicoding.dev/v2',
+      baseUrl: "https://notes-api.dicoding.dev/v2",
     });
   }
 
   async addNote(note) {
-    const endpoint = '/notes';
+    const endpoint = "/notes";
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(note),
     };
@@ -28,7 +28,7 @@ class NotesService {
   }
 
   async getNotes() {
-    const endpoint = '/notes';
+    const endpoint = "/notes";
 
     const [error, response] = await this._client.request(endpoint);
 
@@ -40,7 +40,7 @@ class NotesService {
   }
 
   async getArchivedNotes() {
-    const endpoint = '/notes/archived';
+    const endpoint = "/notes/archived";
 
     const [error, response] = await this._client.request(endpoint);
 
@@ -66,7 +66,7 @@ class NotesService {
   async archiveNote(noteId) {
     const endpoint = `/notes/${noteId}/archive`;
     const options = {
-      method: 'POST',
+      method: "POST",
     };
 
     const [error, response] = await this._client.request(endpoint, options);
@@ -81,7 +81,7 @@ class NotesService {
   async unarchiveNote(noteId) {
     const endpoint = `/notes/${noteId}/unarchive`;
     const options = {
-      method: 'POST',
+      method: "POST",
     };
 
     const [error, response] = await this._client.request(endpoint, options);
@@ -96,7 +96,7 @@ class NotesService {
   async deleteNote(noteId) {
     const endpoint = `/notes/${noteId}`;
     const options = {
-      method: 'DELETE'
+      method: "DELETE",
     };
 
     const [error, response] = await this._client.request(endpoint, options);

@@ -1,130 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes App</title>
-</head>
-<body>
-  <header>
-    <div class="appbar">
-      <h1 class="app-name">Notes App</h1>
-      <div class="options-menu">
-        <theme-switcher control-mode="attr" attr-name="data-theme"></theme-switcher>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes App</title>
+  </head>
+  <body>
+    <header>
+      <div class="appbar">
+        <h1 class="app-name">Notes App</h1>
+        <div class="options-menu">
+          <theme-switcher
+            control-mode="attr"
+            attr-name="data-theme"
+          ></theme-switcher>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <div class="content">
-      <div class="action-panel">
-        <button-groups>
-          <button slot="item" class="btn-outlined" type="button" value="all" selected>All</button>
-          <button slot="item" class="btn-outlined" type="button" value="primary">Primary</button>
-          <button slot="item" class="btn-outlined" type="button" value="archived">Archived</button>
-        </button-groups>
-        <button type="button" id="add-button" class="btn-filled">Add new</button>
+    <main>
+      <div class="content">
+        <div class="action-panel">
+          <button-groups>
+            <button
+              slot="item"
+              class="btn-outlined"
+              type="button"
+              value="all"
+              selected
+            >
+              All
+            </button>
+            <button
+              slot="item"
+              class="btn-outlined"
+              type="button"
+              value="primary"
+            >
+              Primary
+            </button>
+            <button
+              slot="item"
+              class="btn-outlined"
+              type="button"
+              value="archived"
+            >
+              Archived
+            </button>
+          </button-groups>
+          <button type="button" id="add-button" class="btn-filled">
+            Add new
+          </button>
+        </div>
+        <div class="notes">
+          <message-box type="info" hidden>
+            <p slot="message" class="mb-slot__message"></p>
+          </message-box>
+          <note-list></note-list>
+        </div>
       </div>
-      <div class="notes">
-        <message-box type="info" hidden>
-          <p slot="message" class="mb-slot__message"></p>
-        </message-box>
-        <note-list></note-list>
-      </div>
-    </div>
-  </main>
+    </main>
 
-  <footer>
-    <p class="copyright">&copy; 2025 Dicoding Academy</p>
-  </footer>
+    <footer>
+      <p class="copyright">&copy; 2025 Dicoding Academy</p>
+    </footer>
 
-  <!-- Dialog -->
-  <dialog id="add-note-modal" class="modal">
-    <div class="modal-box">
-      <header class="modal__header">
-        <div class="modal__title">Add New Note</div>
-        <button type="button" class="modal__close-button" aria-label="Close add note modal" value="close" autofocus>
-          <close-icon></close-icon>
-        </button>
-      </header>
-      <div class="modal__content">
-        <form class="form" method="dialog">
-          <div class="form__fields">
-            <div class="text-field">
-              <label for="note-form__title">Title
-                <span class="sr-only">(required)</span> :
-                <span class="text-field__required-mark" aria-hidden="true">*</span>
-              </label>
-              <input
-                type="text"
-                id="note-form__title"
-                name="title"
-                class="text-field__input"
-                aria-describedby="title-validation-msg"
-                minlength="3"
-                maxlength="50"
-                required
-              />
-              <div class="text-field__validation">
-                <span id="title-validation-msg" class="text-field__validation-msg" aria-live="polite"></span>
-                <span id="title-char-counter" class="text-field__counter"></span>
+    <!-- Dialog -->
+    <dialog id="add-note-modal" class="modal">
+      <div class="modal-box">
+        <header class="modal__header">
+          <div class="modal__title">Add New Note</div>
+          <button
+            type="button"
+            class="modal__close-button"
+            aria-label="Close add note modal"
+            value="close"
+            autofocus
+          >
+            <close-icon></close-icon>
+          </button>
+        </header>
+        <div class="modal__content">
+          <form class="form" method="dialog">
+            <div class="form__fields">
+              <div class="text-field">
+                <label for="note-form__title"
+                  >Title <span class="sr-only">(required)</span> :
+                  <span class="text-field__required-mark" aria-hidden="true"
+                    >*</span
+                  >
+                </label>
+                <input
+                  type="text"
+                  id="note-form__title"
+                  name="title"
+                  class="text-field__input"
+                  aria-describedby="title-validation-msg"
+                  minlength="3"
+                  maxlength="50"
+                  required
+                />
+                <div class="text-field__validation">
+                  <span
+                    id="title-validation-msg"
+                    class="text-field__validation-msg"
+                    aria-live="polite"
+                  ></span>
+                  <span
+                    id="title-char-counter"
+                    class="text-field__counter"
+                  ></span>
+                </div>
+              </div>
+              <div class="text-field">
+                <label for="note-form__body"
+                  >Notes <span class="sr-only">(required)</span> :
+                  <span class="text-field__required-mark" aria-hidden="true"
+                    >*</span
+                  >
+                </label>
+                <textarea
+                  id="note-form__body"
+                  name="body"
+                  class="text-field__textarea"
+                  rows="8"
+                  aria-describedby="body-validation-msg"
+                  minlength="10"
+                  maxlength="300"
+                  required
+                ></textarea>
+                <div class="text-field__validation">
+                  <span
+                    id="body-validation-msg"
+                    class="text-field__validation-msg"
+                    aria-live="polite"
+                  ></span>
+                  <span
+                    id="body-char-counter"
+                    class="text-field__counter"
+                  ></span>
+                </div>
               </div>
             </div>
-            <div class="text-field">
-              <label for="note-form__body">Notes
-                <span class="sr-only">(required)</span> :
-                <span class="text-field__required-mark" aria-hidden="true">*</span>
-              </label>
-              <textarea
-                id="note-form__body"
-                name="body"
-                class="text-field__textarea"
-                rows="8"
-                aria-describedby="body-validation-msg"
-                minlength="10"
-                maxlength="300"
-                required></textarea>
-              <div class="text-field__validation">
-                <span id="body-validation-msg" class="text-field__validation-msg" aria-live="polite"></span>
-                <span id="body-char-counter" class="text-field__counter"></span>
-              </div>
+            <div class="form__actions">
+              <button type="button" class="btn-filled note-form__cancel-button">
+                Cancel
+              </button>
+              <button type="submit" class="btn-filled note-form__submit-button">
+                Submit
+              </button>
             </div>
-          </div>
-          <div class="form__actions">
-            <button type="button" class="btn-filled note-form__cancel-button">Cancel</button>
-            <button type="submit" class="btn-filled note-form__submit-button">Submit</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-  </dialog>
+    </dialog>
 
-  <dialog id="note-details-modal" class="modal">
-    <div class="modal-box">
-      <header class="modal__header">
-        <div class="modal__title">Note Details</div>
-        <button type="button" class="modal__close-button" aria-label="Close note details modal" value="close" autofocus>
-          <close-icon></close-icon>
-        </button>
-      </header>
-      <div class="modal__content">
-        <div class="note-details">
-          <h3 class="note-details__title">Note Title</h3>
-          <p class="note-details__created-at">Note Created At</p>
-          <p class="note-details__body">Note body</p>
-          <div class="note-details__actions">
-            <button type="button" class="note-details__archive-toggle btn-filled">
-              <archive-icon></archive-icon>
-              Archive
-            </button>
-            <button type="button" class="note-details__delete-button btn-filled">
-              <trash-icon></trash-icon>
-              Delete
-            </button>
+    <dialog id="note-details-modal" class="modal">
+      <div class="modal-box">
+        <header class="modal__header">
+          <div class="modal__title">Note Details</div>
+          <button
+            type="button"
+            class="modal__close-button"
+            aria-label="Close note details modal"
+            value="close"
+            autofocus
+          >
+            <close-icon></close-icon>
+          </button>
+        </header>
+        <div class="modal__content">
+          <div class="note-details">
+            <h3 class="note-details__title">Note Title</h3>
+            <p class="note-details__created-at">Note Created At</p>
+            <p class="note-details__body">Note body</p>
+            <div class="note-details__actions">
+              <button
+                type="button"
+                class="note-details__archive-toggle btn-filled"
+              >
+                <archive-icon></archive-icon>
+                Archive
+              </button>
+              <button
+                type="button"
+                class="note-details__delete-button btn-filled"
+              >
+                <trash-icon></trash-icon>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </dialog>
-</body>
+    </dialog>
+  </body>
 </html>

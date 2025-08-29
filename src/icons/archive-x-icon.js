@@ -2,8 +2,8 @@ class ArchiveXIcon extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._styles = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._styles = document.createElement("style");
     this.render();
   }
 
@@ -31,4 +31,4 @@ class ArchiveXIcon extends HTMLElement {
   }
 }
 
-customElements.define('archive-x-icon', ArchiveXIcon);
+customElements.define("archive-x-icon", ArchiveXIcon);

@@ -1,5 +1,4 @@
 class ThemeSwitcher extends HTMLElement {
-
   _storageKey;
   _controlMode;
   _attrName;
@@ -7,23 +6,24 @@ class ThemeSwitcher extends HTMLElement {
   _value;
 
   static observedAttributes = [
-    'storage-key',
-    'control-mode',
-    'attr-name',
-    'dark-class'
+    "storage-key",
+    "control-mode",
+    "attr-name",
+    "dark-class",
   ];
 
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
+    this._shadow = this.attachShadow({ mode: "closed" });
 
-    this._storageKey = 'ts-color-scheme';
-    this._controlMode = 'attr';
-    this._attrName = 'data-color-scheme';
-    this._darkClass = 'dark';
+    this._storageKey = "ts-color-scheme";
+    this._controlMode = "attr";
+    this._attrName = "data-color-scheme";
+    this._darkClass = "dark";
 
-    this.handleMediaPrefersColorScheme = this.handleMediaPrefersColorScheme.bind(this);
+    this.handleMediaPrefersColorScheme =
+      this.handleMediaPrefersColorScheme.bind(this);
     this.handleClick = this.handleClick.bind(this);
 
     this.composeStyle();
@@ -33,13 +33,21 @@ class ThemeSwitcher extends HTMLElement {
   connectedCallback() {
     this.loadPreference();
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.handleMediaPrefersColorScheme);
-    this._shadow.querySelector('.theme-toggle').addEventListener('click', this.handleClick);
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", this.handleMediaPrefersColorScheme);
+    this._shadow
+      .querySelector(".theme-toggle")
+      .addEventListener("click", this.handleClick);
   }
 
   disconnectedCallback() {
-    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.handleMediaPrefersColorScheme);
-    this._shadow.querySelector('.theme-toggle').removeEventListener('click', this.handleClick);
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeEventListener("change", this.handleMediaPrefersColorScheme);
+    this._shadow
+      .querySelector(".theme-toggle")
+      .removeEventListener("click", this.handleClick);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -48,23 +56,23 @@ class ThemeSwitcher extends HTMLElement {
     }
 
     switch (name) {
-      case 'storage-key':
+      case "storage-key":
         this.storageKey = newValue;
         break;
-      case 'control-mode':
+      case "control-mode":
         this.controlMode = newValue;
         break;
-      case 'attr-name':
+      case "attr-name":
         this.attrName = newValue;
         break;
-      case 'dark-class':
+      case "dark-class":
         this.darkClass = newValue;
         break;
     }
   }
 
   composeStyle() {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
 :host {
   --ts-color-surface: light-dark(#f0f0f0, #282828);
@@ -191,15 +199,20 @@ class ThemeSwitcher extends HTMLElement {
     if (savedPref) {
       this.value = savedPref;
     } else {
-      this.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      this.value = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
     }
   }
 
   applyTheme() {
-    this.toggleAttribute('dark', this.value === 'dark');
+    this.toggleAttribute("dark", this.value === "dark");
 
-    if (this.controlMode === 'class') {
-      document.documentElement.classList.toggle(this.darkClass, this.value === 'dark');
+    if (this.controlMode === "class") {
+      document.documentElement.classList.toggle(
+        this.darkClass,
+        this.value === "dark",
+      );
     } else {
       document.documentElement.setAttribute(this.attrName, this.value);
     }
@@ -208,16 +221,16 @@ class ThemeSwitcher extends HTMLElement {
   }
 
   handleMediaPrefersColorScheme(evt) {
-    this.value = evt.matches ? 'dark' : 'light';
+    this.value = evt.matches ? "dark" : "light";
   }
 
   handleClick(evt) {
     evt.stopPropagation();
-    this.value = this.value === 'light' ? 'dark' : 'light';
+    this.value = this.value === "light" ? "dark" : "light";
   }
 
   set storageKey(value) {
-    if (typeof value !== 'string') {
+    if (typeof value !== "string") {
       return;
     }
 
@@ -253,16 +266,18 @@ class ThemeSwitcher extends HTMLElement {
   }
 
   set value(value) {
-    if (typeof value !== 'string') {
+    if (typeof value !== "string") {
       return;
     }
 
     this._value = value;
     this.applyTheme();
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: { value },
-      bubbles: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value },
+        bubbles: true,
+      }),
+    );
   }
 
   get value() {
@@ -270,4 +285,4 @@ class ThemeSwitcher extends HTMLElement {
   }
 }
 
-customElements.define('theme-switcher', ThemeSwitcher);
+customElements.define("theme-switcher", ThemeSwitcher);

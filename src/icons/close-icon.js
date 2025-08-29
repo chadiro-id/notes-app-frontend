@@ -2,8 +2,8 @@ class CloseIcon extends HTMLElement {
   constructor() {
     super();
 
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._styles = document.createElement('style');
+    this._shadow = this.attachShadow({ mode: "closed" });
+    this._styles = document.createElement("style");
     this.render();
   }
 
@@ -31,4 +31,4 @@ class CloseIcon extends HTMLElement {
   }
 }
 
-customElements.define('close-icon', CloseIcon);
+customElements.define("close-icon", CloseIcon);
