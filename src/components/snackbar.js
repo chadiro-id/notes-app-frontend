@@ -9,7 +9,12 @@ class Snackbar extends HTMLElement {
   }
 
   composeStyle() {
-
+    this._style = `
+    :host {}
+    .snackbar__content-container {}
+    .snackbar__message {}
+    .snackbar__actions {}
+    `;
   }
 
   composeHTML() {
@@ -18,6 +23,9 @@ class Snackbar extends HTMLElement {
     <div class="snackbar__message"></div>
     <div class="snackbar__actions">
       <button type="button" class="snackbar__action-button">OK</button>
+      <button type="button" class="snackbar__close-button" aria-label="Close snackbar">
+        <close-icon></close-icon>
+      </button>
     </div>
     `;
   }
