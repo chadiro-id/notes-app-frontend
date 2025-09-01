@@ -10,10 +10,42 @@ class Snackbar extends HTMLElement {
 
   composeStyle() {
     this._style = `
-    :host {}
-    .snackbar__content-container {}
-    .snackbar__message {}
-    .snackbar__actions {}
+    .snackbar__content-container {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 5rem;
+      margin-inline: auto;
+
+      max-width: 600px;
+      padding-block: 0.5em;
+      padding-inline: 0.5em;
+
+      display: flex;
+      gap: 0.5em;
+      align-items: center;
+
+      color: var(--color-inverse-on-surface);
+      background-color: var(--color-inverse-surface);
+      border-radius: var(--dimen-radius-low);
+
+      box-shadow: 2px 2px 6px -2px var(--color-shadow);
+
+      opacity: 0;
+      transform: translateY(20%);
+    }
+
+    .snackbar__message {
+      flex-grow: 1;
+      padding-block: 0.5em;
+      padding-inline: 0.5em;
+    }
+
+    .snackbar__actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
     `;
   }
 
