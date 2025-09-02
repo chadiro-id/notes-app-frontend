@@ -6,64 +6,70 @@
     <title>Notes App</title>
   </head>
   <body>
-    <header>
-      <div class="appbar">
-        <h1 class="app-name">Notes App</h1>
-        <div class="options-menu">
-          <theme-switcher
-            control-mode="attr"
-            attr-name="data-theme"
-          ></theme-switcher>
+    <div id="page">
+      <header>
+        <div class="appbar">
+          <h1 class="app-name">Notes App</h1>
+          <div class="options-menu">
+            <theme-switcher
+              control-mode="attr"
+              attr-name="data-theme"
+            ></theme-switcher>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <main>
-      <div class="content">
-        <div class="action-panel">
-          <button-groups>
-            <button
-              slot="item"
-              class="btn-outlined"
-              type="button"
-              value="all"
-              selected
-            >
-              All
+      <main>
+        <div class="content">
+          <div class="action-panel">
+            <button-groups>
+              <button
+                slot="item"
+                class="btn-outlined"
+                type="button"
+                value="all"
+                selected
+              >
+                All
+              </button>
+              <button
+                slot="item"
+                class="btn-outlined"
+                type="button"
+                value="primary"
+              >
+                Primary
+              </button>
+              <button
+                slot="item"
+                class="btn-outlined"
+                type="button"
+                value="archived"
+              >
+                Archived
+              </button>
+            </button-groups>
+            <button type="button" id="add-button" class="btn-filled">
+              Add new
             </button>
-            <button
-              slot="item"
-              class="btn-outlined"
-              type="button"
-              value="primary"
-            >
-              Primary
-            </button>
-            <button
-              slot="item"
-              class="btn-outlined"
-              type="button"
-              value="archived"
-            >
-              Archived
-            </button>
-          </button-groups>
-          <button type="button" id="add-button" class="btn-filled">
-            Add new
-          </button>
+          </div>
+          <div class="notes">
+            <message-box type="info" hidden>
+              <p slot="message" class="mb-slot__message"></p>
+            </message-box>
+            <note-list></note-list>
+          </div>
         </div>
-        <div class="notes">
-          <message-box type="info" hidden>
-            <p slot="message" class="mb-slot__message"></p>
-          </message-box>
-          <note-list></note-list>
-        </div>
-      </div>
-    </main>
+      </main>
 
-    <footer>
-      <p class="copyright">&copy; 2025 Dicoding Academy</p>
-    </footer>
+      <footer>
+        <p class="copyright">&copy; 2025 Dicoding Academy</p>
+      </footer>
+    </div>
+
+    <div id="splash">
+      <div class="app-name">Notes App</div>
+    </div>
 
     <!-- Dialog -->
     <dialog id="add-note-modal" class="modal">
