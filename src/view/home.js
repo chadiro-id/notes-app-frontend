@@ -7,7 +7,6 @@ const home = () => {
 
   const actionPanel = document.querySelector(".action-panel");
   const addNoteBtn = document.getElementById("add-button");
-  const msgBox = document.querySelector("message-box");
   const noteList = document.querySelector("note-list");
 
   const buttonGroups = document.querySelector("button-groups");
@@ -61,13 +60,6 @@ const home = () => {
     addNoteModal.show();
   });
 
-  msgBox.addEventListener("close", (evt) => {
-    const { opener } = evt.detail;
-    if (opener === "search") {
-      // displayNotes(getAllNotes());
-    }
-  });
-
   noteList.addEventListener("itemAdded", (evt) => {
     const { node } = evt.detail;
     console.log(`[On Item Added] node: ${node}`);
@@ -90,17 +82,6 @@ const home = () => {
       noteDetailsModal.show(data);
     }
   }
-
-  function showMessageBox(type, msg, opener) {
-    msgBox.opener = opener;
-    msgBox.type = type;
-    msgBox.querySelector(".mb-slot__message").textContent = msg;
-    msgBox.hidden = false;
-  }
-
-  // function hideMessageBox() {
-  //   msgBox.hidden = true;
-  // }
 
   function displayNotes(notes) {
     const noteItems = notes.map((item) => {
@@ -160,8 +141,6 @@ const home = () => {
     noteItemEl.note = data.data;
     noteList.prepend(noteItemEl);
     // noteList.lastElementChild.measureAvailableSize();
-
-    showMessageBox("success", "New note has been added successfully.");
   }
 
   async function archiveNote(noteId) {
