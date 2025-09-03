@@ -1,15 +1,49 @@
 class Snackbar extends HTMLElement {
+
+  static observedAttributes = [
+    "with-dismiss",
+    "with-action",
+  ];
+
   constructor() {
     super();
 
     this._shadow = this.attachShadow({ mode: "closed" });
+
     this._style = document.createElement("style");
-    this._contentContainer = document.createElement("div");
-    this._shadow.append(this._style, this._contentContainer);
+    this._shadow.appendChild(this._style);
   }
 
-  composeStyle() {
-    this._style = `
+  connectedCallback() {
+    this.updateStyle();
+    this.render();
+  }
+
+  disconnectedCallback() {
+
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+
+    if (name === "with-action") {
+      //TOdO
+    }
+
+    if (name === "with-dismiss") {
+      //TODO
+    }
+  }
+
+  render() {
+    this.className = "snackbar";
+    this._shadow.innerHTML += this.template();
+  }
+
+  updateStyle() {
+    this._style.textContent = `
     .snackbar__content-container {
       position: fixed;
       left: 0;
@@ -49,15 +83,19 @@ class Snackbar extends HTMLElement {
     `;
   }
 
-  composeHTML() {
-    this._contentContainer.className = "snackbar__content-container";
-    this._contentContainer.innerHTML = `
-    <div class="snackbar__message"></div>
-    <div class="snackbar__actions">
-      <button type="button" class="snackbar__action-button">OK</button>
-      <button type="button" class="snackbar__close-button" aria-label="Close snackbar">
-        <close-icon></close-icon>
-      </button>
+  template() {
+    return `
+    <div class="snackbar__content-container>
+      <div class="snackbar__message">
+      </div>
+      <div class="snackbar__actions">
+        <button type="button" class="snackbar__action-button">
+          <slot name="action-button-content">ACTION</slot>
+        </button>
+        <button type="button" class="snackbar__close-button" aria-label="Close snackbar">
+          <slot name="close-button-content">CLOSE</slot>
+        </button>
+      </div>
     </div>
     `;
   }
