@@ -1,8 +1,10 @@
 class Snackbar extends HTMLElement {
 
   static observedAttributes = [
-    "with-dismiss",
-    "with-action",
+    "message",
+    "actions",
+    "anchor",
+    "duration",
   ];
 
   constructor() {
@@ -12,15 +14,21 @@ class Snackbar extends HTMLElement {
 
     this._style = document.createElement("style");
     this._shadow.appendChild(this._style);
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   connectedCallback() {
     this.updateStyle();
     this.render();
+
+    const contentContainer = this._shadow.querySelector(".snackbar__content-container");
+    contentContainer.addEventListener("click", this.handleClick);
   }
 
   disconnectedCallback() {
-
+    const contentContainer = this._shadow.querySelector(".snackbar__content-container");
+    contentContainer.removeEventListener("click", this.handleClick);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -86,18 +94,40 @@ class Snackbar extends HTMLElement {
   template() {
     return `
     <div class="snackbar__content-container>
-      <div class="snackbar__message">
-      </div>
+      <div class="snackbar__message">${this.message}</div>
       <div class="snackbar__actions">
-        <button type="button" class="snackbar__action-button">
-          <slot name="action-button-content">ACTION</slot>
-        </button>
-        <button type="button" class="snackbar__close-button" aria-label="Close snackbar">
-          <slot name="close-button-content">CLOSE</slot>
-        </button>
+        ${this.actions.map((action) => {
+          return `
+          <button type="button" class="snackbar__action-button" value=${action}>
+            ${action.toUpperCase()}
+          </button>
+          `;
+        }).join("")}
       </div>
     </div>
     `;
+  }
+
+  handleClick(evt) {
+    evt.stopPropagation();
+    if (evt.target.classList.contains("snackbar__action-button")) {
+      this.dismiss(evt.target.value)
+    }
+  }
+
+  show() {
+
+  }
+
+  dismiss(action) {
+    this.dispatchEvent(new CustomEvent("dismiss", {
+      detail: {
+        action,
+      },
+      bubbles: true,
+    }));
+
+    this.remove();
   }
 }
 
