@@ -25,24 +25,25 @@
             <button-groups id="button-groups-notes">
               <button
                 slot="item"
-                class="btn-outlined"
                 type="button"
+                class="btn-groups__item"
                 value="all"
+                selected
               >
                 All
               </button>
               <button
                 slot="item"
-                class="btn-outlined"
                 type="button"
+                class="btn-groups__item"
                 value="primary"
               >
                 Primary
               </button>
               <button
                 slot="item"
-                class="btn-outlined"
                 type="button"
+                class="btn-groups__item"
                 value="archived"
               >
                 Archived
@@ -202,5 +203,9 @@
         </div>
       </div>
     </dialog>
+
+    <div id="text-progress" class="text-progress text-progress--hidden">
+      <span class="text-progress__info">Loading</span>
+    </div>
   </body>
 </html>

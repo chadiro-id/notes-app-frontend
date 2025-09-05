@@ -4,12 +4,14 @@ import NotesService from "../services/NotesService";
 import NotesEmpty from "./notes-empty";
 import NotesSkeleton from "./notes-skeleton";
 import SnackbarProvider from "./snackbar-provider";
+import TextProgress from "./text-progress";
 
 const home = () => {
   const notesService = new NotesService();
   const notesEmpty = NotesEmpty();
   const notesSkeleton = NotesSkeleton();
   const snackbarProvider = SnackbarProvider();
+  const textProgress = TextProgress();
 
   const actionPanel = document.querySelector(".action-panel");
   const addNoteBtn = document.getElementById("add-button");
@@ -89,14 +91,7 @@ const home = () => {
     }
   }
 
-  function displayNotes(notes) {
-    notesSkeleton.hide();
-
-    if (!notes.length) {
-      notesEmpty.show("Empty Notes!");
-      return;
-    }
-
+  function displayNotes(notes, ) {
     const noteItems = notes.map((item) => {
       const noteItemEl = document.createElement("note-item");
       noteItemEl.setAttribute("slot", "list-item");
@@ -119,12 +114,18 @@ const home = () => {
           const [, data1] = results[0];
           const [, data2] = results[1];
           const notes = [...data1.data, ...data2.data];
-          displayNotes(notes);
+
+          notesSkeleton.hide();
+          if (notes.length) {
+            displayNotes(notes);
+          } else {
+            notesEmpty.show("Notes is empty!");
+          }
         })
         .catch((error) => {
           notesSkeleton.stop();
           snackbarProvider.make("Failed to load all notes.", {
-            actions: ["retry"],
+            actions: ["retry", "close"],
             onDismiss: (reason) => {
               if (reason === "retry") {
                 fetchAllNotes();
@@ -146,7 +147,7 @@ const home = () => {
       console.log(error.message);
       notesSkeleton.stop();
       snackbarProvider.make("Failed to load notes.", {
-        actions: ["retry"],
+        actions: ["retry", "close"],
         onDismiss: (reason) => {
           if (reason === "retry") {
             fetchNotes();
@@ -155,7 +156,15 @@ const home = () => {
       }).show();
       return;
     }
-    displayNotes(data.data);
+
+    const { data: notes } = data;
+    notesSkeleton.hide();
+
+    if (notes.length) {
+      displayNotes(notes);
+    } else {
+      notesEmpty.show("Primary notes is empty!");
+    }
   }
 
   async function fetchArchivedNotes() {
@@ -168,7 +177,7 @@ const home = () => {
       console.log(error.message);
       notesSkeleton.stop();
       snackbarProvider.make("Failed to load archived notes.", {
-        actions: ["retry"],
+        actions: ["retry", "close"],
         onDismiss: (reason) => {
           if (reason === "retry") {
             fetchArchivedNotes();
@@ -177,15 +186,27 @@ const home = () => {
       }).show();
       return;
     }
-    displayNotes(data.data);
+    
+    const { data: notes } = data;
+    notesSkeleton.hide();
+
+    if (notes.length) {
+      displayNotes(notes);
+    } else {
+      notesEmpty.show("Archived notes is empty!");
+    }
   }
 
   async function addNewNote(note) {
+    textProgress.show("Adding note");
     const [error, data] = await notesService.addNote(note);
+
+    textProgress.hide();
+
     if (error) {
       console.log(error);
       snackbarProvider.make("Failed to add new notes.", {
-        actions: ["retry"],
+        actions: ["retry", "close"],
         onDismiss: (reason) => {
           if (reason === "retry") {
             addNewNote(note);
@@ -194,23 +215,28 @@ const home = () => {
       }).show();
       return;
     }
+
     const noteItemEl = document.createElement("note-item");
     noteItemEl.setAttribute("slot", "list-item");
     noteItemEl.className = "note-item";
     noteItemEl.note = data.data;
     noteList.prepend(noteItemEl);
+
     snackbarProvider.make(`New note added: ${note.title}`, {
-      duration: 20000,
+      duration: 5000,
       actions: ["ok"]
     }).show();
   }
 
   async function archiveNote(noteId) {
+    textProgress.show("Archiving note");
     const [error, data] = await notesService.archiveNote(noteId);
+
+    textProgress.hide();
 
     if (error) {
       snackbarProvider.make("Failed to archive notes.", {
-        actions: ["retry"],
+        actions: ["retry", "close"],
         onDismiss: (reason) => {
           if (reason === "retry") {
             archiveNote(noteId);
@@ -218,34 +244,70 @@ const home = () => {
         },
       }).show();
       console.log(error);
+
+      return;
     }
+    
+    snackbarProvider.make(`Note ${noteId} archived successfully`, {
+      duration: 5000,
+      actions: ["ok"]
+    }).show();
 
     console.info(data?.message);
   }
 
   async function unarchiveNote(noteId) {
+    textProgress.show("Unarchiving note");
     const [error, data] = await notesService.unarchiveNote(noteId);
+
+    textProgress.hide();
+
     if (error) {
       console.log(error);
       snackbarProvider.make("Failed to unarchive notes.", {
-        actions: ["retry"],
+        actions: ["retry", "close"],
         onDismiss: (reason) => {
           if (reason === "retry") {
             unarchiveNote(noteId);
           }
         },
       }).show();
+
+      return;
     }
+    
+    snackbarProvider.make(`Note ${noteId} unarchived successfully`, {
+      duration: 5000,
+      actions: ["ok"]
+    }).show();
 
     console.info(data?.message);
   }
 
   async function deleteNote(noteId) {
+    textProgress.show("Deleting note");
     const [error, data] = await notesService.deleteNote(noteId);
 
+    textProgress.hide();
+
     if (error) {
+      snackbarProvider.make("Failed to delete note.", {
+        actions: ["retry", "close"],
+        onDismiss: (reason) => {
+          if (reason === "retry") {
+            deleteNote(noteId);
+          }
+        },
+      }).show();
       console.log(error);
+
+      return;
     }
+
+    snackbarProvider.make(`Note ${noteId} removed successfully`, {
+      duration: 5000,
+      actions: ["ok"]
+    }).show();
 
     console.info(data?.message);
   }
