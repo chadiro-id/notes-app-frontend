@@ -91,7 +91,7 @@ const home = () => {
     }
   }
 
-  function displayNotes(notes, ) {
+  function displayNotes(notes) {
     const noteItems = notes.map((item) => {
       const noteItemEl = document.createElement("note-item");
       noteItemEl.setAttribute("slot", "list-item");
@@ -311,7 +311,7 @@ const home = () => {
   }
 
   actionPanelObserver.observe(actionPanel);
-  fetchAllNotes();
+  buttonGroups.select("all");
 };
 
 export default home;
