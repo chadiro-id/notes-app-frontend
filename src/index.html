@@ -6,7 +6,7 @@
     <title>Notes App</title>
   </head>
   <body>
-    <div id="app">
+    <div id="app" class="app-container">
       <header>
         <div class="appbar">
           <h1 class="app-name">Notes App</h1>
@@ -60,6 +60,9 @@
             </div>
             <note-list id="note-list" mode="grid"></note-list>
             <note-list id="notes-skeleton" class="notes-skeleton">
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
               <div slot="list-item" class="skeleton skeleton--wave"></div>
               <div slot="list-item" class="skeleton skeleton--wave"></div>
               <div slot="list-item" class="skeleton skeleton--wave"></div>
