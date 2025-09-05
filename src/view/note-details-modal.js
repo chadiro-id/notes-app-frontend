@@ -63,14 +63,6 @@ const modal = (closeCallback) => {
   };
 
   return {
-    // show({ title, body, createdAt, archived }) {
-    //   noteTitleEl.textContent = title;
-    //   noteBodyEl.innerText = body;
-    //   noteCreatedAtEl.textContent = new Date(createdAt).toLocaleString();
-    //   noteArchiveToggle.textContent = archived ? 'Unarchive' : 'Archive';
-
-    //   dialog.showModal();
-    // }
     show,
   };
 };

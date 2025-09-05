@@ -1,37 +1,3 @@
-const validateInput = (inputEl) => {
-  const { valueMissing, tooShort, tooLong } = inputEl.validity;
-  const minlength = inputEl.getAttribute("minlength");
-  const maxlength = inputEl.getAttribute("maxlength");
-  const validationTarget =
-    inputEl.id === "note-form__title" ? "Judul" : "Catatan";
-
-  let customMsg = "";
-
-  if (valueMissing) {
-    customMsg = `${validationTarget} wajib diisi.`;
-  } else if (tooShort) {
-    customMsg = `Panjang minimum ${validationTarget.toLocaleLowerCase()} adalah ${minlength} karakter.`;
-  } else if (tooLong) {
-    customMsg = `Panjang maksimum ${validationTarget.toLocaleLowerCase()} adalah ${maxlength} karakter.`;
-  }
-
-  inputEl.setCustomValidity(customMsg);
-};
-
-const updateCounter = (inputEl, counterEl) => {
-  const maxlength = inputEl.getAttribute("maxlength");
-
-  counterEl.textContent = `${inputEl.value.length}/${maxlength}`;
-};
-
-const updateValidationMsg = (inputEl, msgEl) => {
-  if (inputEl.checkValidity()) {
-    msgEl.textContent = "";
-  } else {
-    msgEl.textContent = `* ${inputEl.validationMessage}`;
-  }
-};
-
 const modal = (closeCallback) => {
   const dialog = document.getElementById("add-note-modal");
   const modalBox = dialog.querySelector(".modal-box");
@@ -136,6 +102,40 @@ const modal = (closeCallback) => {
       closeCallback(dialog.returnValue, outData);
     }
   });
+
+  const validateInput = (inputEl) => {
+    const { valueMissing, tooShort, tooLong } = inputEl.validity;
+    const minlength = inputEl.getAttribute("minlength");
+    const maxlength = inputEl.getAttribute("maxlength");
+    const validationTarget =
+      inputEl.id === "note-form__title" ? "Judul" : "Catatan";
+
+    let customMsg = "";
+
+    if (valueMissing) {
+      customMsg = `${validationTarget} wajib diisi.`;
+    } else if (tooShort) {
+      customMsg = `Panjang minimum ${validationTarget.toLocaleLowerCase()} adalah ${minlength} karakter.`;
+    } else if (tooLong) {
+      customMsg = `Panjang maksimum ${validationTarget.toLocaleLowerCase()} adalah ${maxlength} karakter.`;
+    }
+
+    inputEl.setCustomValidity(customMsg);
+  };
+
+  const updateCounter = (inputEl, counterEl) => {
+    const maxlength = inputEl.getAttribute("maxlength");
+
+    counterEl.textContent = `${inputEl.value.length}/${maxlength}`;
+  };
+
+  const updateValidationMsg = (inputEl, msgEl) => {
+    if (inputEl.checkValidity()) {
+      msgEl.textContent = "";
+    } else {
+      msgEl.textContent = `* ${inputEl.validationMessage}`;
+    }
+  };
 
   updateCounter(titleInput, titleCharCounterEl);
   updateCounter(bodyText, bodyCharCounterEl);
