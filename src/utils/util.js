@@ -8,5 +8,5 @@ export function debounce(func, wait) {
 
 export function waitForSecond(second = 1) {
   const ms = second * 1000;
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

@@ -65,7 +65,9 @@ class ButtonGroups extends HTMLElement {
   updateItems() {
     const buttons = this.querySelectorAll("button");
     buttons.forEach((btn) => {
-      const selected = this._selectedValues.some((value) => value === btn.value);
+      const selected = this._selectedValues.some(
+        (value) => value === btn.value,
+      );
       btn.toggleAttribute("selected", selected);
     });
   }

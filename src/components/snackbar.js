@@ -1,9 +1,7 @@
 class Snackbar extends HTMLElement {
   _duration = 0;
 
-  static observedAttributes = [
-    "duration",
-  ];
+  static observedAttributes = ["duration"];
 
   constructor() {
     super();

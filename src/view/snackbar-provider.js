@@ -21,7 +21,13 @@ const SnackbarProvider = () => {
         button.slot = "action";
         button.value = value.toLowerCase();
         button.textContent = value.toUpperCase();
-        button.addEventListener("click", () => { dismiss(button.value); }, { once: true });
+        button.addEventListener(
+          "click",
+          () => {
+            dismiss(button.value);
+          },
+          { once: true },
+        );
         return button;
       });
 
@@ -32,23 +38,23 @@ const SnackbarProvider = () => {
 
     inactiveSnackbar = snackbar;
     return provider;
-  }
+  };
 
   const show = () => {
     if (activeSnackbar) {
       dismissReason = "stack";
       activeSnackbar.hide();
     } else {
-      document.body.appendChild(inactiveSnackbar)
+      document.body.appendChild(inactiveSnackbar);
       inactiveSnackbar.show();
       activeSnackbar = inactiveSnackbar;
     }
-  }
+  };
 
   const dismiss = (reason = "") => {
     dismissReason = reason;
     activeSnackbar.hide();
-  }
+  };
 
   const handleSnackbarHide = () => {
     console.log("snackbar hide -> reason:", dismissReason);
@@ -64,15 +70,15 @@ const SnackbarProvider = () => {
     }
 
     dismissReason = "";
-  }
-  
+  };
+
   const provider = {
     make,
     show,
-    dismiss
-  }
+    dismiss,
+  };
 
   return provider;
-}
+};
 
 export default SnackbarProvider;

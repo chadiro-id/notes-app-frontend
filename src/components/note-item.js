@@ -34,17 +34,18 @@ class NoteItem extends HTMLElement {
   }
 
   updateView() {
-    const titleEl = this.querySelector('.note-item__title');
-    const bodyEl = this.querySelector('.note-item__body');
-    const createdAtEl = this.querySelector('.note-item__created-at');
-    
+    const titleEl = this.querySelector(".note-item__title");
+    const bodyEl = this.querySelector(".note-item__body");
+    const createdAtEl = this.querySelector(".note-item__created-at");
+
     const { title, body, createdAt } = this._note;
 
-    const date = createdAt ? new Date(createdAt) : '';
+    const date = createdAt ? new Date(createdAt) : "";
 
     titleEl && (titleEl.textContent = title);
     bodyEl && (bodyEl.innerText = body);
-    createdAtEl && (createdAtEl.textContent = date ? date.toLocaleString() : '');
+    createdAtEl &&
+      (createdAtEl.textContent = date ? date.toLocaleString() : "");
   }
 
   handleClick(evt) {

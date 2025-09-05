@@ -5,17 +5,16 @@ const NotesEmpty = () => {
   const show = (message) => {
     messageEl.textContent = message;
     el.classList.toggle("notes-empty--hidden", false);
-  }
+  };
 
   const hide = () => {
     el.classList.toggle("notes-empty--hidden", true);
-  }
+  };
 
   return {
     show,
-    hide
+    hide,
   };
-}
-
+};
 
 export default NotesEmpty;

@@ -5,17 +5,17 @@ const TextProgress = () => {
   const show = (text) => {
     progressInfoEl.textContent = text;
     progressEl.classList.toggle("text-progress--hidden", false);
-  }
+  };
 
   const hide = () => {
     progressInfoEl.textContent = "Loading";
     progressEl.classList.toggle("text-progress--hidden", true);
-  }
+  };
 
   return {
     show,
-    hide
-  }
-}
+    hide,
+  };
+};
 
 export default TextProgress;

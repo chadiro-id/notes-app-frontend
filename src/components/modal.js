@@ -3,13 +3,9 @@ class Modal extends HTMLElement {
     super();
   }
 
-  connectedCallback() {
+  connectedCallback() {}
 
-  }
-
-  disconnectedCallback() {
-
-  }
+  disconnectedCallback() {}
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue) {
@@ -17,17 +13,11 @@ class Modal extends HTMLElement {
     }
   }
 
-  render() {
+  render() {}
 
-  }
+  updateStyles() {}
 
-  updateStyles() {
-
-  }
-
-  template() {
-    
-  }
+  template() {}
 }
 
 customElements.define("cr-modal", Modal);

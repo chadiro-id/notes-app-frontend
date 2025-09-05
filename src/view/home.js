@@ -118,7 +118,7 @@ const home = () => {
         const [, data1] = results[0];
         const [, data2] = results[1];
         const notes = [...data1.data, ...data2.data];
-        
+
         notesSkeleton.hide();
         if (notes.length) {
           displayNotes(notes);
@@ -128,14 +128,16 @@ const home = () => {
       })
       .catch((error) => {
         notesSkeleton.stop();
-        snackbarProvider.make("Failed to load all notes.", {
-          actions: ["retry", "close"],
-          onDismiss: (reason) => {
-            if (reason === "retry") {
-              fetchAllNotes();
-            }
-          },
-        }).show();
+        snackbarProvider
+          .make("Failed to load all notes.", {
+            actions: ["retry", "close"],
+            onDismiss: (reason) => {
+              if (reason === "retry") {
+                fetchAllNotes();
+              }
+            },
+          })
+          .show();
         console.log(error);
       });
   }
@@ -149,14 +151,16 @@ const home = () => {
     if (error) {
       console.log(error.message);
       notesSkeleton.stop();
-      snackbarProvider.make("Failed to load notes.", {
-        actions: ["retry", "close"],
-        onDismiss: (reason) => {
-          if (reason === "retry") {
-            fetchNotes();
-          }
-        },
-      }).show();
+      snackbarProvider
+        .make("Failed to load notes.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              fetchNotes();
+            }
+          },
+        })
+        .show();
       return;
     }
 
@@ -179,17 +183,19 @@ const home = () => {
     if (error) {
       console.log(error.message);
       notesSkeleton.stop();
-      snackbarProvider.make("Failed to load archived notes.", {
-        actions: ["retry", "close"],
-        onDismiss: (reason) => {
-          if (reason === "retry") {
-            fetchArchivedNotes();
-          }
-        },
-      }).show();
+      snackbarProvider
+        .make("Failed to load archived notes.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              fetchArchivedNotes();
+            }
+          },
+        })
+        .show();
       return;
     }
-    
+
     const { data: notes } = data;
     notesSkeleton.hide();
 
@@ -202,20 +208,22 @@ const home = () => {
 
   async function addNewNote(note) {
     textProgress.show("Adding note");
-    const [error,] = await notesService.addNote(note);
+    const [error] = await notesService.addNote(note);
 
     textProgress.hide();
 
     if (error) {
       console.log(error);
-      snackbarProvider.make("Failed to add new notes.", {
-        actions: ["retry", "close"],
-        onDismiss: (reason) => {
-          if (reason === "retry") {
-            addNewNote(note);
-          }
-        },
-      }).show();
+      snackbarProvider
+        .make("Failed to add new notes.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              addNewNote(note);
+            }
+          },
+        })
+        .show();
       return;
     }
 
@@ -225,11 +233,13 @@ const home = () => {
     // noteItemEl.note = data.data;
     // noteList.prepend(noteItemEl);
 
-    snackbarProvider.make(`New note added: ${note.title}`, {
-      duration: 5000,
-      actions: ["ok"]
-    }).show();
-    
+    snackbarProvider
+      .make(`New note added: ${note.title}`, {
+        duration: 5000,
+        actions: ["ok"],
+      })
+      .show();
+
     reloadNotes();
   }
 
@@ -240,23 +250,27 @@ const home = () => {
     textProgress.hide();
 
     if (error) {
-      snackbarProvider.make("Failed to archive notes.", {
-        actions: ["retry", "close"],
-        onDismiss: (reason) => {
-          if (reason === "retry") {
-            archiveNote(noteId);
-          }
-        },
-      }).show();
+      snackbarProvider
+        .make("Failed to archive notes.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              archiveNote(noteId);
+            }
+          },
+        })
+        .show();
       console.log(error);
 
       return;
     }
-    
-    snackbarProvider.make(`Note ${noteId} archived successfully`, {
-      duration: 5000,
-      actions: ["ok"]
-    }).show();
+
+    snackbarProvider
+      .make(`Note ${noteId} archived successfully`, {
+        duration: 5000,
+        actions: ["ok"],
+      })
+      .show();
 
     reloadNotes();
 
@@ -271,22 +285,26 @@ const home = () => {
 
     if (error) {
       console.log(error);
-      snackbarProvider.make("Failed to unarchive notes.", {
-        actions: ["retry", "close"],
-        onDismiss: (reason) => {
-          if (reason === "retry") {
-            unarchiveNote(noteId);
-          }
-        },
-      }).show();
+      snackbarProvider
+        .make("Failed to unarchive notes.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              unarchiveNote(noteId);
+            }
+          },
+        })
+        .show();
 
       return;
     }
-    
-    snackbarProvider.make(`Note ${noteId} unarchived successfully`, {
-      duration: 5000,
-      actions: ["ok"]
-    }).show();
+
+    snackbarProvider
+      .make(`Note ${noteId} unarchived successfully`, {
+        duration: 5000,
+        actions: ["ok"],
+      })
+      .show();
 
     reloadNotes();
 
@@ -300,23 +318,27 @@ const home = () => {
     textProgress.hide();
 
     if (error) {
-      snackbarProvider.make("Failed to delete note.", {
-        actions: ["retry", "close"],
-        onDismiss: (reason) => {
-          if (reason === "retry") {
-            deleteNote(noteId);
-          }
-        },
-      }).show();
+      snackbarProvider
+        .make("Failed to delete note.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              deleteNote(noteId);
+            }
+          },
+        })
+        .show();
       console.log(error);
 
       return;
     }
 
-    snackbarProvider.make(`Note ${noteId} removed successfully`, {
-      duration: 5000,
-      actions: ["ok"]
-    }).show();
+    snackbarProvider
+      .make(`Note ${noteId} removed successfully`, {
+        duration: 5000,
+        actions: ["ok"],
+      })
+      .show();
 
     reloadNotes();
 

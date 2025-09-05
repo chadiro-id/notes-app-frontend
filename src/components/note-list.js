@@ -54,12 +54,12 @@ class NoteList extends HTMLElement {
       gap: ${this.gutter};
     }
     `;
-    
+
     return style;
   }
 
   composeHTML() {
-    return "<slot name=\"list-item\"></slot>";
+    return '<slot name="list-item"></slot>';
   }
 
   setupMutationObserver() {
@@ -85,7 +85,6 @@ class NoteList extends HTMLElement {
               this.cleanupItem(node);
             }
           });
-
         }
       });
     });
