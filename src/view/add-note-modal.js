@@ -4,11 +4,11 @@ const modal = (closeCallback) => {
   const closeBtn = dialog.querySelector(".modal__close-button");
 
   const noteForm = dialog.querySelector("form");
-  const titleInput = noteForm.querySelector('input[type="text"]');
+  const titleInput = noteForm.querySelector("#note-form__title");
   const bodyText = noteForm.querySelector("textarea");
 
-  const cancelBtn = noteForm.querySelector('button[type="button"]');
-  const submitBtn = noteForm.querySelector('button[type="submit"]');
+  const cancelBtn = noteForm.querySelector(".note-form__cancel-button");
+  const submitBtn = noteForm.querySelector(".note-form__submit-button");
 
   const titleValidationMsgEl = noteForm.querySelector("#title-validation-msg");
   const titleCharCounterEl = noteForm.querySelector("#title-char-counter");
