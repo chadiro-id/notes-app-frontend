@@ -18,11 +18,11 @@
     rgba(18, 18, 18, 0.1)
   );
 
-  --color-surface-container: light-dark(#d3d3d3, #575757);
-  --color-surface-container-low: light-dark(#e1e1e1, #3f3f3f);
-  --color-surface-container-lowest: light-dark(#f0f0f0, #282828);
-  --color-surface-container-high: light-dark(#c5c5c5, #717171);
-  --color-surface-container-highest: light-dark(#b6b6b6, #8b8b8b);
+  --color-surface-container: light-dark(hsl(0, 0%, 83%), hsl(0, 0%, 34%));
+  --color-surface-container-low: light-dark(hsl(0, 0%, 88%), hsl(0, 0%, 25%));
+  --color-surface-container-lowest: light-dark(hsl(0, 0%, 94%), hsl(0, 0%, 16%));
+  --color-surface-container-high: light-dark(hsl(0, 0%, 77%), hsl(0, 0%, 44%));
+  --color-surface-container-highest: light-dark(hsl(0, 0%, 71%), hsl(0, 0%, 55%));
 
   --color-on-surface: light-dark(hsl(0, 0%, 20%), hsl(0, 0%, 80%));
   --color-on-surface-variant: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 60%));
@@ -34,6 +34,9 @@
   --color-shadow: light-dark(rgb(0, 0, 0), rgb(241, 241, 241));
   --color-shadow-variant: light-dark(rgb(192, 192, 192), rgb(119, 119, 119));
   --color-overlay: light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+
+  --color-shimmer: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 16%));
+  --color-shimmer-bright: light-dark(hsl(0, 0%, 95%), hsl(0, 0%, 25%));
 
   --color-inverse-surface: light-dark(#282828, #f0f0f0);
   --color-inverse-on-surface: light-dark(#e0e0e0, #323232);
@@ -559,6 +562,73 @@ button {
   margin-block: 0;
 
   text-align: center;
+}
+
+.snackbar__action-button {
+  padding: 0.5em;
+
+  color: var(--color-inverse-on-surface);
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--color-tint);
+  }
+}
+
+.notes-empty {
+  min-height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 1rem;
+}
+
+.notes-empty--hidden {
+  display: none;
+}
+
+.skeleton {
+  border-radius: var(--dimen-radius-high);
+  background-color: var(--color-shimmer);
+
+  animation-name: shimmer-pulse;
+  animation-fill-mode: forwards;
+  animation-direction: alternate;
+  animation-timing-function: ease;
+  animation-duration: 1.75s;
+  animation-iteration-count: infinite;
+
+  animation-play-state: paused;
+}
+
+.skeleton--wave {
+  background: linear-gradient(to right, var(--color-shimmer) 30%, var(--color-shimmer-bright) 50%, var(--color-shimmer) 60%);
+  background-size: 300%;
+  background-position-x: 150%;
+
+  animation-name: shimmer-wave;
+  animation-direction: normal;
+  animation-duration: 2.25s;
+}
+
+.skeleton--animate {
+  animation-play-state: running;
+}
+
+@keyframes shimmer-wave {
+  to {
+    background-position-x: 0;
+  }
+}
+
+@keyframes shimmer-pulse {
+  to {
+    background-color: var(--color-shimmer-bright);
+  }
 }
 
 @media screen and (min-width: 480px) {

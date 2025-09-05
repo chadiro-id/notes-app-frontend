@@ -1,13 +1,19 @@
 import addNoteModalDialog from "./add-note-modal";
 import noteDetailsModalDialog from "./note-details-modal";
 import NotesService from "../services/NotesService";
+import NotesEmpty from "./notes-empty";
+import NotesSkeleton from "./notes-skeleton";
+import SnackbarProvider from "./snackbar-provider";
 
 const home = () => {
   const notesService = new NotesService();
+  const notesEmpty = NotesEmpty();
+  const notesSkeleton = NotesSkeleton();
+  const snackbarProvider = SnackbarProvider();
 
   const actionPanel = document.querySelector(".action-panel");
   const addNoteBtn = document.getElementById("add-button");
-  const noteList = document.querySelector("note-list");
+  const noteList = document.getElementById("note-list");
 
   const buttonGroups = document.querySelector("button-groups");
 
@@ -84,48 +90,93 @@ const home = () => {
   }
 
   function displayNotes(notes) {
+    notesSkeleton.hide();
+
+    if (!notes.length) {
+      notesEmpty.show("Empty Notes!");
+      return;
+    }
+
     const noteItems = notes.map((item) => {
       const noteItemEl = document.createElement("note-item");
-      noteItemEl.setAttribute("slot", "item");
+      noteItemEl.setAttribute("slot", "list-item");
       noteItemEl.className = "note-item";
       noteItemEl.note = item;
       return noteItemEl;
     });
 
-    noteList.clearItems();
     noteList.append(...noteItems);
   }
 
   function fetchAllNotes() {
-    Promise.all([notesService.getNotes(), notesService.getArchivedNotes()])
-      .then((results) => {
-        const [, data1] = results[0];
-        const [, data2] = results[1];
-        const notes = [...data1.data, ...data2.data];
-        displayNotes(notes);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    notesSkeleton.play();
+    notesEmpty.hide();
+    noteList.clearItems();
+
+    setTimeout(() => {
+      Promise.all([notesService.getNotes(), notesService.getArchivedNotes()])
+        .then((results) => {
+          const [, data1] = results[0];
+          const [, data2] = results[1];
+          const notes = [...data1.data, ...data2.data];
+          displayNotes(notes);
+        })
+        .catch((error) => {
+          notesSkeleton.stop();
+          snackbarProvider.make("Failed to load all notes.", {
+            actions: ["retry"],
+            onDismiss: (reason) => {
+              if (reason === "retry") {
+                fetchAllNotes();
+              }
+            },
+          }).show();
+          console.log(error);
+        });
+    }, 3000);
   }
 
   async function fetchNotes() {
+    notesEmpty.hide();
+    noteList.clearItems();
+    notesSkeleton.play();
+
     const [error, data] = await notesService.getNotes();
     if (error) {
       console.log(error.message);
+      notesSkeleton.stop();
+      snackbarProvider.make("Failed to load notes.", {
+        actions: ["retry"],
+        onDismiss: (reason) => {
+          if (reason === "retry") {
+            fetchNotes();
+          }
+        },
+      }).show();
       return;
     }
-    console.log(data.data);
     displayNotes(data.data);
   }
 
   async function fetchArchivedNotes() {
+    noteList.clearItems();
+    notesEmpty.hide();
+    notesSkeleton.play();
+
     const [error, data] = await notesService.getArchivedNotes();
     if (error) {
       console.log(error.message);
+      notesSkeleton.stop();
+      snackbarProvider.make("Failed to load archived notes.", {
+        actions: ["retry"],
+        onDismiss: (reason) => {
+          if (reason === "retry") {
+            fetchArchivedNotes();
+          }
+        },
+      }).show();
       return;
     }
-    console.log(data.data);
     displayNotes(data.data);
   }
 
@@ -133,20 +184,39 @@ const home = () => {
     const [error, data] = await notesService.addNote(note);
     if (error) {
       console.log(error);
+      snackbarProvider.make("Failed to add new notes.", {
+        actions: ["retry"],
+        onDismiss: (reason) => {
+          if (reason === "retry") {
+            addNewNote(note);
+          }
+        },
+      }).show();
       return;
     }
     const noteItemEl = document.createElement("note-item");
-    noteItemEl.setAttribute("slot", "item");
+    noteItemEl.setAttribute("slot", "list-item");
     noteItemEl.className = "note-item";
     noteItemEl.note = data.data;
     noteList.prepend(noteItemEl);
-    // noteList.lastElementChild.measureAvailableSize();
+    snackbarProvider.make(`New note added: ${note.title}`, {
+      duration: 20000,
+      actions: ["ok"]
+    }).show();
   }
 
   async function archiveNote(noteId) {
     const [error, data] = await notesService.archiveNote(noteId);
 
     if (error) {
+      snackbarProvider.make("Failed to archive notes.", {
+        actions: ["retry"],
+        onDismiss: (reason) => {
+          if (reason === "retry") {
+            archiveNote(noteId);
+          }
+        },
+      }).show();
       console.log(error);
     }
 
@@ -157,6 +227,14 @@ const home = () => {
     const [error, data] = await notesService.unarchiveNote(noteId);
     if (error) {
       console.log(error);
+      snackbarProvider.make("Failed to unarchive notes.", {
+        actions: ["retry"],
+        onDismiss: (reason) => {
+          if (reason === "retry") {
+            unarchiveNote(noteId);
+          }
+        },
+      }).show();
     }
 
     console.info(data?.message);
