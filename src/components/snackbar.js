@@ -1,9 +1,7 @@
 class Snackbar extends HTMLElement {
+  _duration = 0;
 
   static observedAttributes = [
-    "message",
-    "actions",
-    "anchor",
     "duration",
   ];
 
@@ -11,24 +9,17 @@ class Snackbar extends HTMLElement {
     super();
 
     this._shadow = this.attachShadow({ mode: "closed" });
-
-    this._style = document.createElement("style");
-    this._shadow.appendChild(this._style);
-
-    this.handleClick = this.handleClick.bind(this);
+    this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
   }
 
   connectedCallback() {
-    this.updateStyle();
     this.render();
 
-    const contentContainer = this._shadow.querySelector(".snackbar__content-container");
-    contentContainer.addEventListener("click", this.handleClick);
+    this.addEventListener("transitionend", this.handleTransitionEnd);
   }
 
   disconnectedCallback() {
-    const contentContainer = this._shadow.querySelector(".snackbar__content-container");
-    contentContainer.removeEventListener("click", this.handleClick);
+    this.removeEventListener("transitionend", this.handleTransitionEnd);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -36,99 +27,116 @@ class Snackbar extends HTMLElement {
       return;
     }
 
-    if (name === "with-action") {
-      //TOdO
-    }
-
-    if (name === "with-dismiss") {
-      //TODO
+    if (name === "duration") {
+      this.duration = newValue || this.duration;
     }
   }
 
   render() {
-    this.className = "snackbar";
-    this._shadow.innerHTML += this.template();
+    this._shadow.innerHTML = "";
+
+    const style = this.createStyles();
+    const contentView = this.template();
+    this._shadow.append(style);
+    this._shadow.innerHTML += contentView;
   }
 
-  updateStyle() {
-    this._style.textContent = `
-    .snackbar__content-container {
+  createStyles() {
+    const style = document.createElement("style");
+    style.textContent = `
+    :host {
+      max-width: 600px;
+
       position: fixed;
       left: 0;
       right: 0;
       bottom: 5rem;
       margin-inline: auto;
 
-      max-width: 600px;
-      padding-block: 0.5em;
-      padding-inline: 0.5em;
-
-      display: flex;
-      gap: 0.5em;
-      align-items: center;
-
-      color: var(--color-inverse-on-surface);
-      background-color: var(--color-inverse-surface);
-      border-radius: var(--dimen-radius-low);
-
-      box-shadow: 2px 2px 6px -2px var(--color-shadow);
+      z-index: 9999;
 
       opacity: 0;
       transform: translateY(20%);
+
+      transition-property: opacity, transform;
+      transition-duration: 0.3s;
     }
 
-    .snackbar__message {
+    :host([open]) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .content-container {
+      padding: 0.5em;
+
+      display: flex;
+
+      color: var(--snackbar-color-foreground, light-dark(#e0e0e0, #323232));
+      background-color: var(--snackbar-color-background, light-dark(#282828, #f0f0f0));
+      border-radius: var(--snackbar-border-radius, 8px);
+
+      box-shadow: 2px 2px 6px -2px var(--snackbar-color-shadow, light-dark(rgb(0, 0, 0), rgb(241, 241, 241)));
+    }
+
+    .message-box {
       flex-grow: 1;
-      padding-block: 0.5em;
-      padding-inline: 0.5em;
+      padding: 0.5em;
     }
 
-    .snackbar__actions {
+    .actions-box {
       display: flex;
       align-items: center;
       gap: 0.5em;
     }
     `;
+
+    return style;
   }
 
   template() {
     return `
-    <div class="snackbar__content-container>
-      <div class="snackbar__message">${this.message}</div>
-      <div class="snackbar__actions">
-        ${this.actions.map((action) => {
-          return `
-          <button type="button" class="snackbar__action-button" value=${action}>
-            ${action.toUpperCase()}
-          </button>
-          `;
-        }).join("")}
+    <div class="content-container">
+      <div class="message-box">
+        <slot name="message">Your message...</slot>
+      </div>
+      <div class="actions-box">
+        <slot name="action"></slot>
       </div>
     </div>
     `;
   }
 
-  handleClick(evt) {
+  handleTransitionEnd(evt) {
     evt.stopPropagation();
-    if (evt.target.classList.contains("snackbar__action-button")) {
-      this.dismiss(evt.target.value)
+    console.log("[Snackbar] transition end -> property:", evt.propertyName);
+    if (evt.propertyName === "opacity" && !this.hasAttribute("open")) {
+      console.log("[Snackbar] transition end -> dispatch event:", true);
+      this.dispatchEvent(new Event("hide"));
     }
   }
 
   show() {
+    this.toggleAttribute("open", true);
 
+    if (this.duration) {
+      setTimeout(() => {
+        this.hide();
+      }, this.duration);
+    }
   }
 
-  dismiss(action) {
-    this.dispatchEvent(new CustomEvent("dismiss", {
-      detail: {
-        action,
-      },
-      bubbles: true,
-    }));
+  hide() {
+    this.toggleAttribute("open", false);
+  }
 
-    this.remove();
+  set duration(value) {
+    this._duration = value;
+  }
+
+  get duration() {
+    return this._duration;
   }
 }
 
-customElements.define("snackbar", Snackbar);
+customElements.define("cr-snackbar", Snackbar);

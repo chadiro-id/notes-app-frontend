@@ -6,7 +6,7 @@
     <title>Notes App</title>
   </head>
   <body>
-    <div id="page">
+    <div id="app">
       <header>
         <div class="appbar">
           <h1 class="app-name">Notes App</h1>
@@ -22,13 +22,12 @@
       <main>
         <div class="content">
           <div class="action-panel">
-            <button-groups>
+            <button-groups id="button-groups-notes">
               <button
                 slot="item"
                 class="btn-outlined"
                 type="button"
                 value="all"
-                selected
               >
                 All
               </button>
@@ -54,10 +53,19 @@
             </button>
           </div>
           <div class="notes">
-            <message-box type="info" hidden>
-              <p slot="message" class="mb-slot__message"></p>
-            </message-box>
-            <note-list></note-list>
+            <div id="notes-empty" class="notes-empty">
+              <p class="notes-empty__message">Empty notes!</p>
+              <button type="button" class="btn-outlined">Add new</button>
+            </div>
+            <cr-list-view id="note-list" mode="grid"></cr-list-view>
+            <cr-list-view id="notes-skeleton" class="notes-skeleton">
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+              <div slot="list-item" class="skeleton skeleton--wave"></div>
+            </cr-list-view>
           </div>
         </div>
       </main>
@@ -65,10 +73,6 @@
       <footer>
         <p class="copyright">&copy; 2025 Dicoding Academy</p>
       </footer>
-    </div>
-
-    <div id="splash">
-      <div class="app-name">Notes App</div>
     </div>
 
     <!-- Dialog -->
