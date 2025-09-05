@@ -99,6 +99,10 @@ class ButtonGroups extends HTMLElement {
     return this._selectionMode;
   }
 
+  get selectedValues() {
+    return this._selectedValues;
+  }
+
   set value(value) {
     this._value = value;
   }
