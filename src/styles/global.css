@@ -564,8 +564,12 @@ button {
 .snackbar__action-button {
   padding: 0.5em;
 
+  font-weight: bold;
+
   color: var(--color-inverse-on-surface);
   background-color: transparent;
+
+  border-radius: var(--dimen-radius-low);
 
   &:hover {
     background-color: var(--color-tint);
