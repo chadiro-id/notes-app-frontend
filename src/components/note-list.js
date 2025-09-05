@@ -7,17 +7,12 @@ class NoteList extends HTMLElement {
     super();
 
     this._shadow = this.attachShadow({ mode: "closed" });
-    this._style = document.createElement("style");
-    this._container = document.createElement("div");
-
-    this._shadow.append(this._style, this._container);
-    this.updateStyle();
-    this.composeHTML();
 
     this._mutationObserver = null;
   }
 
   connectedCallback() {
+    this.render();
     this.setupMutationObserver();
   }
 
@@ -36,60 +31,65 @@ class NoteList extends HTMLElement {
     this.updateStyle();
   }
 
-  updateStyle() {
-    this._style.textContent = `
-.note-list__container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-auto-rows: 180px;
-  grid-auto-flow: row dense;
-  gap: ${this.gutter};
-}
+  render() {
+    this._shadow.innerHTML = "";
+
+    const styleContainer = document.createElement("style");
+    styleContainer.textContent = this.composeStyle();
+
+    const viewContainer = document.createElement("div");
+    viewContainer.className = "content-container";
+    viewContainer.innerHTML = this.composeHTML();
+
+    this._shadow.append(styleContainer, viewContainer);
+  }
+
+  composeStyle() {
+    const style = `
+    .content-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-auto-rows: 180px;
+      grid-auto-flow: row dense;
+      gap: ${this.gutter};
+    }
     `;
+    
+    return style;
   }
 
   composeHTML() {
-    this._container.className = "note-list__container";
-    this._container.innerHTML = `
-<slot name="item"></slot>
-    `;
+    return "<slot name=\"list-item\"></slot>";
   }
 
   setupMutationObserver() {
-    // Hanya pantau penambahan/penghapusan child langsung
     const config = { childList: true, subtree: false };
 
     this._mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === "childList") {
-          // Ketika ada node yang ditambahkan
           mutation.addedNodes.forEach((node) => {
             if (
               node.nodeType === Node.ELEMENT_NODE &&
-              node.classList.contains("note-item")
+              node.slot === "list-item"
             ) {
-              // Asumsi item grid punya class 'grid-item'
               this.setupItem(node);
             }
           });
-          // Ketika ada node yang dihapus
+
           mutation.removedNodes.forEach((node) => {
             if (
               node.nodeType === Node.ELEMENT_NODE &&
-              node.classList.contains("note-item")
+              node.slot === "list-item"
             ) {
               this.cleanupItem(node);
             }
           });
 
-          // Setelah penambahan/penghapusan, perbarui navigasi
-          // this.updateKeyboardNavigation();
         }
       });
     });
 
-    // Amati childNodes dari elemen host (light DOM)
-    // Jika kamu ingin mengamati perubahan di dalam Shadow DOM, ganti this jadi this.shadowRoot
     this._mutationObserver.observe(this, config);
   }
 
