@@ -23,14 +23,7 @@ class NoteItem extends HTMLElement {
     container.innerHTML = `
     <div class="note-item__title"></div>
     <div class="note-item__body"></div>
-    <div class="note-item__actions">
-      <button class="btn-filled note-item__archive-toggle" aria-label="Archive note">
-        Archive
-      </button>
-      <button class="btn-filled note-item__delete-button" aria-label="Delete note">
-        Delete
-      </button>
-    </div>
+    <div class="note-item__created-at"></div>
     `;
 
     this.appendChild(container);
@@ -41,17 +34,17 @@ class NoteItem extends HTMLElement {
   }
 
   updateView() {
-    const titleEl = this.querySelector(".note-item__title");
-    const bodyEl = this.querySelector(".note-item__body");
-    const archiveToggle = this.querySelector(".note-item__archive-toggle");
+    const titleEl = this.querySelector('.note-item__title');
+    const bodyEl = this.querySelector('.note-item__body');
+    const createdAtEl = this.querySelector('.note-item__created-at');
+    
+    const { title, body, createdAt } = this._note;
 
-    const { title, body, archived } = this._note;
-
-    const archiveIcon = archived ? "Unarchive" : "Archive";
+    const date = createdAt ? new Date(createdAt) : '';
 
     titleEl && (titleEl.textContent = title);
     bodyEl && (bodyEl.innerText = body);
-    archiveToggle && (archiveToggle.innerHTML = archiveIcon);
+    createdAtEl && (createdAtEl.textContent = date ? date.toLocaleString() : '');
   }
 
   handleClick(evt) {

@@ -31,7 +31,7 @@ class ButtonGroups extends HTMLElement {
       return;
     }
 
-    if (name === "select-mode") {
+    if (name === "selection-mode") {
       this.selectionMode = newValue;
     }
 
@@ -65,7 +65,6 @@ class ButtonGroups extends HTMLElement {
       const selectedValue = evt.target.value;
 
       this._selectedValues.push(selectedValue);
-      console.log(`[button groups] item click -> value: ${selectedValue}`);
 
       this.dispatchEvent(
         new CustomEvent("select", {
@@ -75,7 +74,17 @@ class ButtonGroups extends HTMLElement {
           },
         }),
       );
+
+      this.updateItems();
     }
+  }
+
+  updateItems() {
+    const buttons = this.querySelectorAll("button");
+    buttons.forEach((btn) => {
+      const selected = this._selectedValues.some((value) => value === btn.value);
+      btn.toggleAttribute("selected", selected);
+    });
   }
 
   set selectionMode(value) {
