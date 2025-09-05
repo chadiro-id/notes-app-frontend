@@ -108,33 +108,31 @@ const home = () => {
     notesEmpty.hide();
     noteList.clearItems();
 
-    setTimeout(() => {
-      Promise.all([notesService.getNotes(), notesService.getArchivedNotes()])
-        .then((results) => {
-          const [, data1] = results[0];
-          const [, data2] = results[1];
-          const notes = [...data1.data, ...data2.data];
-
-          notesSkeleton.hide();
-          if (notes.length) {
-            displayNotes(notes);
-          } else {
-            notesEmpty.show("Notes is empty!");
-          }
-        })
-        .catch((error) => {
-          notesSkeleton.stop();
-          snackbarProvider.make("Failed to load all notes.", {
-            actions: ["retry", "close"],
-            onDismiss: (reason) => {
-              if (reason === "retry") {
-                fetchAllNotes();
-              }
-            },
-          }).show();
-          console.log(error);
-        });
-    }, 3000);
+    Promise.all([notesService.getNotes(), notesService.getArchivedNotes()])
+      .then((results) => {
+        const [, data1] = results[0];
+        const [, data2] = results[1];
+        const notes = [...data1.data, ...data2.data];
+        
+        notesSkeleton.hide();
+        if (notes.length) {
+          displayNotes(notes);
+        } else {
+          notesEmpty.show("Notes is empty!");
+        }
+      })
+      .catch((error) => {
+        notesSkeleton.stop();
+        snackbarProvider.make("Failed to load all notes.", {
+          actions: ["retry", "close"],
+          onDismiss: (reason) => {
+            if (reason === "retry") {
+              fetchAllNotes();
+            }
+          },
+        }).show();
+        console.log(error);
+      });
   }
 
   async function fetchNotes() {
