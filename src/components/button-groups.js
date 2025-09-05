@@ -53,18 +53,11 @@ class ButtonGroups extends HTMLElement {
     `;
 
     this._shadow.innerHTML += '<slot name="item"></slot>';
-
-    const itemButtons = this._shadow.querySelectorAll("::slotted(button)");
-    itemButtons.forEach((item) => {
-      item.classList.toggle("button-groups__item", true);
-      const selected = this._defaultValue.includes(item.value);
-      item.toggleAttribute("selected", selected);
-    });
   }
 
   handleClick(evt) {
     evt.stopPropagation();
-    if (evt.target.classList.contains("button-groups__item")) {
+    if (evt.target.slot === "item") {
       if (this.selectionMode === "single") {
         this._selectedValues.length = 0;
       }
