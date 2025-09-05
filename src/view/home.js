@@ -103,6 +103,11 @@ const home = () => {
     noteList.append(...noteItems);
   }
 
+  function reloadNotes() {
+    const currentState = buttonGroups.selectedValues[0] || "all";
+    buttonGroups.select(currentState);
+  }
+
   function fetchAllNotes() {
     notesSkeleton.play();
     notesEmpty.hide();
@@ -197,7 +202,7 @@ const home = () => {
 
   async function addNewNote(note) {
     textProgress.show("Adding note");
-    const [error, data] = await notesService.addNote(note);
+    const [error,] = await notesService.addNote(note);
 
     textProgress.hide();
 
@@ -214,16 +219,18 @@ const home = () => {
       return;
     }
 
-    const noteItemEl = document.createElement("note-item");
-    noteItemEl.setAttribute("slot", "list-item");
-    noteItemEl.className = "note-item";
-    noteItemEl.note = data.data;
-    noteList.prepend(noteItemEl);
+    // const noteItemEl = document.createElement("note-item");
+    // noteItemEl.setAttribute("slot", "list-item");
+    // noteItemEl.className = "note-item";
+    // noteItemEl.note = data.data;
+    // noteList.prepend(noteItemEl);
 
     snackbarProvider.make(`New note added: ${note.title}`, {
       duration: 5000,
       actions: ["ok"]
     }).show();
+    
+    reloadNotes();
   }
 
   async function archiveNote(noteId) {
@@ -250,6 +257,8 @@ const home = () => {
       duration: 5000,
       actions: ["ok"]
     }).show();
+
+    reloadNotes();
 
     console.info(data?.message);
   }
@@ -279,6 +288,8 @@ const home = () => {
       actions: ["ok"]
     }).show();
 
+    reloadNotes();
+
     console.info(data?.message);
   }
 
@@ -306,6 +317,8 @@ const home = () => {
       duration: 5000,
       actions: ["ok"]
     }).show();
+
+    reloadNotes();
 
     console.info(data?.message);
   }
