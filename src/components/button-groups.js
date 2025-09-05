@@ -58,24 +58,7 @@ class ButtonGroups extends HTMLElement {
   handleClick(evt) {
     evt.stopPropagation();
     if (evt.target.slot === "item") {
-      if (this.selectionMode === "single") {
-        this._selectedValues.length = 0;
-      }
-
-      const selectedValue = evt.target.value;
-
-      this._selectedValues.push(selectedValue);
-
-      this.dispatchEvent(
-        new CustomEvent("select", {
-          detail: {
-            selectedValue,
-            values: this._selectedValues,
-          },
-        }),
-      );
-
-      this.updateItems();
+      this.select(evt.target.value);
     }
   }
 
@@ -85,6 +68,25 @@ class ButtonGroups extends HTMLElement {
       const selected = this._selectedValues.some((value) => value === btn.value);
       btn.toggleAttribute("selected", selected);
     });
+  }
+
+  select(value) {
+    if (this.selectionMode === "single") {
+      this._selectedValues.length = 0;
+    }
+
+    this._selectedValues.push(value);
+
+    this.dispatchEvent(
+      new CustomEvent("select", {
+        detail: {
+          selectedValue: value,
+          values: this._selectedValues,
+        },
+      }),
+    );
+
+    this.updateItems();
   }
 
   set selectionMode(value) {
